@@ -20,6 +20,8 @@
 
 package com.vaadin.componentfactory.pdfviewer;
 
+import com.vaadin.componentfactory.pdfviewer.event.ThumbnailClickedEvent;
+import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.dependency.NpmPackage;
@@ -81,5 +83,28 @@ public class PdfViewer extends Div {
   public void setZoom(String zoom) {
     getElement().setProperty("zoom", zoom);
   }
-     
+  
+  /**
+   * Adds a listener for {@link ThumbnailClickedEvent} to the component.
+   *
+   * @param listener the listener to be added
+   */
+  public void addThumbnailClickedListener(ComponentEventListener<ThumbnailClickedEvent> listener) {
+    addListener(ThumbnailClickedEvent.class, listener);
+  }
+   
+  /**
+   * Opens thumbnails view. 
+   */
+  public void openThumbnailsView() {
+    getElement().executeJs("this.__openSidebar()");
+  }
+  
+  /**
+   * Closes thumbnails view.
+   */
+  public void closeThumbnailsView() {
+    getElement().executeJs("this.__closeSidebar()");
+  }
+  
 }
