@@ -10,11 +10,10 @@ public class MainLayout extends AppLayout {
   public MainLayout() {
     final DrawerToggle drawerToggle = new DrawerToggle();
 
-    final RouterLink basicExample =
-        new RouterLink("Basic example", BasicPdfViewerExample.class);
-    
+    final RouterLink basicExample = new RouterLink("Basic example", BasicPdfViewerExample.class);
+    final RouterLink zoomExample = new RouterLink("Zoom example", AdjustZoomPdfViewerExample.class);
 
-    final VerticalLayout menuLayout = new VerticalLayout(basicExample);
+    final VerticalLayout menuLayout = new VerticalLayout(basicExample, zoomExample);
     addToDrawer(menuLayout);
     addToNavbar(drawerToggle);
   }
