@@ -27,13 +27,11 @@ import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.server.AbstractStreamResource;
 
 @Tag("vcf-pdf-viewer")
-//@NpmPackage(value = "pdfjs-dist", version = "^2.10.377")
-@JsModule("./vcf-pdf-viewer.js")
+@NpmPackage(value = "@vaadin-component-factory/vcf-pdf-viewer", version = "^0.9.1")
+@JsModule("@vaadin-component-factory/vcf-pdf-viewer/vcf-pdf-viewer.js")
 public class PdfViewer extends Div {
 
-  public PdfViewer() {
-
-  }
+  public PdfViewer() {}  
 
   /**
    * @return url to source file
@@ -41,26 +39,26 @@ public class PdfViewer extends Div {
   public String getSrc() {
     return getElement().getAttribute("src");
   }
-  
+
+  /**
+   * Sets a pdf file to render.
+   * 
+   * @param src url to file
+   */
   public void setSrc(String src) {
     this.getElement().setAttribute("src", src);
   }
 
   /**
-   * Use this method to give in a pdf file as a StreamResource. This is handy when you for example
-   * want to load a PDF from a database or have it freshly generated with a library
-   *
-   * How to use: {@code StreamResource resource = new StreamResource("mypdf.pdf", ()
+   * Sets a pdf file to render as a StreamResource. 
+   * <p>
+   * Example: {@code StreamResource resource = new StreamResource("mypdf.pdf", ()
    * -&gt; getPdfInputStream("mypdf.pdf");}
    *
    * @param src stream to file
    */
   public void setSrc(AbstractStreamResource src) {
     getElement().setAttribute("src", src);
-  }
-
-  public void setPage(Integer pageNumber) {
-    this.getElement().executeJs("pageNumber", pageNumber);
   }
 
   /**
@@ -71,14 +69,17 @@ public class PdfViewer extends Div {
   }
 
   /**
-   * The level of zoom on the document. Allowed values are - Number, for zoom percentage. Eg. 1.5
-   * means 150% zoom - 'auto', default value - 'page-fit', fit a full page into component
-   *
+   * Sets the level of zoom on the rendered pdf file. 
+   * <p>
+   * Allowed values are 
+   * - Number: for zoom percentage (e.g. 1.5 means 150% zoom). 
+   * - 'auto': default value.
+   * - 'page-fit': fit a full page into component.
+   * 
    * @param zoom zoom level
    */
   public void setZoom(String zoom) {
     getElement().setProperty("zoom", zoom);
   }
-
-
+     
 }
