@@ -12,8 +12,11 @@ public class MainLayout extends AppLayout {
 
     final RouterLink basicExample = new RouterLink("Basic example", BasicPdfViewerExample.class);
     final RouterLink zoomExample = new RouterLink("Zoom example", AdjustZoomPdfViewerExample.class);
+    final RouterLink thumbnailsListenerExample =
+        new RouterLink("Thumbnail listener example", ThumbnailsListenerExample.class);
 
-    final VerticalLayout menuLayout = new VerticalLayout(basicExample, zoomExample);
+    final VerticalLayout menuLayout =
+        new VerticalLayout(basicExample, zoomExample, thumbnailsListenerExample);
     addToDrawer(menuLayout);
     addToNavbar(drawerToggle);
   }
