@@ -22,6 +22,7 @@ package com.vaadin.componentfactory.pdfviewer;
 
 import com.vaadin.componentfactory.pdfviewer.event.ThumbnailClickedEvent;
 import com.vaadin.flow.component.ComponentEventListener;
+import com.vaadin.flow.component.Synchronize;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.dependency.NpmPackage;
@@ -105,6 +106,23 @@ public class PdfViewer extends Div {
    */
   public void closeThumbnailsView() {
     getElement().executeJs("this.__closeSidebar()");
+  }
+  
+  /**
+   * @return current page on viewer 
+   */
+  @Synchronize("currentPage-changed")
+  public String getCurrentPage() {
+    return getElement().getProperty("currentPage");
+  }
+
+  /**
+   * Sets the current page of the rendered pdf file.
+   * 
+   * @param currentPage current page number
+   */
+  public void setPage(Integer currentPage) {
+    getElement().executeJs("this.setCurrentPage($0)", currentPage);
   }
   
 }

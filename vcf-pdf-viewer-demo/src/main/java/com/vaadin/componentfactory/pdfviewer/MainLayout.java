@@ -15,10 +15,12 @@ public class MainLayout extends AppLayout {
     final RouterLink thumbnailsOpenExample =
         new RouterLink("Thumbnail viewer open example", ThumbnailsViewerOpenExample.class);
     final RouterLink thumbnailsListenerExample =
-        new RouterLink("Thumbnail listener example", ThumbnailsListenerExample.class);   
+        new RouterLink("Thumbnail listener example", ThumbnailsListenerExample.class);
+    final RouterLink selectPageExample =
+        new RouterLink("Set page example", SelectPagePdfViewerExample.class);
 
-    final VerticalLayout menuLayout =
-        new VerticalLayout(basicExample, zoomExample, thumbnailsOpenExample, thumbnailsListenerExample);
+    final VerticalLayout menuLayout = new VerticalLayout(basicExample, zoomExample,
+        thumbnailsOpenExample, thumbnailsListenerExample, selectPageExample);
     addToDrawer(menuLayout);
     addToNavbar(drawerToggle);
   }
