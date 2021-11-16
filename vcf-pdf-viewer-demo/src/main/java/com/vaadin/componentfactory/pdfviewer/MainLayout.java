@@ -1,5 +1,6 @@
 package com.vaadin.componentfactory.pdfviewer;
 
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -23,5 +24,11 @@ public class MainLayout extends AppLayout {
         thumbnailsOpenExample, thumbnailsListenerExample, selectPageExample);
     addToDrawer(menuLayout);
     addToNavbar(drawerToggle);
+  }
+  @Override
+  public void setContent(Component content) {
+      super.setContent(content);
+      content.getElement().getStyle().set("height", "100%");
+      content.getElement().getStyle().set("overflow", "hidden");
   }
 }

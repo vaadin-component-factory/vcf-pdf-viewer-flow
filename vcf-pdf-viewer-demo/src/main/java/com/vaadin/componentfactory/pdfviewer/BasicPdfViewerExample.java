@@ -10,6 +10,7 @@ public class BasicPdfViewerExample extends Div {
   public BasicPdfViewerExample() {
     
     PdfViewer pdfViewer = new PdfViewer();
+    pdfViewer.setSizeFull();
     StreamResource resource = new StreamResource("example.pdf", () -> getClass().getResourceAsStream("/pdf/example.pdf"));
     pdfViewer.setSrc(resource);
     add(pdfViewer);    
