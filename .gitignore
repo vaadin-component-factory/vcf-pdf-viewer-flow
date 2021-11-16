@@ -45,3 +45,4 @@ webpack.config.js
 webpack.generated.js
 
 timeline/src/main/resources/rebel.xml
+.vscode
