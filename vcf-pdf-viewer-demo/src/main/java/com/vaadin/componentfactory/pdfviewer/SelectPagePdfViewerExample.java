@@ -13,6 +13,7 @@ public class SelectPagePdfViewerExample extends Div {
   public SelectPagePdfViewerExample() {
     
     PdfViewer pdfViewer = new PdfViewer();
+    pdfViewer.setSizeFull();
     StreamResource resource = new StreamResource("example.pdf", () -> getClass().getResourceAsStream("/pdf/example.pdf"));
     pdfViewer.setSrc(resource);
     pdfViewer.setPage(4);

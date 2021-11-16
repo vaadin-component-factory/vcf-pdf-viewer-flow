@@ -10,6 +10,7 @@ public class AdjustZoomPdfViewerExample extends Div {
   public AdjustZoomPdfViewerExample() {
     
     PdfViewer pdfViewer = new PdfViewer();
+    pdfViewer.setSizeFull();
     StreamResource resource = new StreamResource("example.pdf", () -> getClass().getResourceAsStream("/pdf/example.pdf"));
     pdfViewer.setSrc(resource);
     pdfViewer.setZoom("page-fit");
