@@ -30,5 +30,7 @@ public class MainLayout extends AppLayout {
       super.setContent(content);
       content.getElement().getStyle().set("height", "100%");
       content.getElement().getStyle().set("overflow", "hidden");
+      content.getElement().getStyle().set("display", "flex");
+      content.getElement().getStyle().set("flex-direction", "column");
   }
 }
