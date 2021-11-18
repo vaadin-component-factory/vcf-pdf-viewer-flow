@@ -6,7 +6,7 @@
 
     <groupId>org.vaadin.addons.componentfactory</groupId>
     <artifactId>vcf-pdf-viewer-demo</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
 
     <name>Pdf Viewer Demo</name>
     <packaging>war</packaging>
@@ -107,7 +107,7 @@
         <dependency>
            <groupId>org.vaadin.addons.componentfactory</groupId>
            <artifactId>vcf-pdf-viewer</artifactId>
-           <version>1.0.0-SNAPSHOT</version>
+           <version>${project.version}</version>
         </dependency>
 
         <dependency>
