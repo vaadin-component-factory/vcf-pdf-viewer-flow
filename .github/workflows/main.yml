@@ -1,0 +1,57 @@
+# This workflow will build a Java project with Maven
+# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
+
+name: Java CI with Maven
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Cache local Maven repository
+      uses: actions/cache@v2
+      with:
+        path: ~/.m2/repository
+        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+        restore-keys: |
+          ${{ runner.os }}-maven-
+    - name: Cache local NPM
+      uses: actions/cache@v2
+      with:
+        path: ~/.npm
+        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-
+    - uses: actions/checkout@v2
+    - name: Set up JDK 1.8
+      uses: actions/setup-java@v1
+      with:
+        java-version: 1.8
+    - name: Build with Maven
+      run: mvn -B clean install package -Pproduction --file pom.xml
+    - name: Rename the war and remove the version
+      run: mv ${{ secrets.DEMO_NAME }}/target/${{ secrets.DEMO_NAME }}*.war ${{ secrets.DEMO_NAME }}.war
+    - name: SCP to the server
+      # You may pin to the exact commit or the version.
+      # uses: appleboy/scp-action@edc8ec9139a2687bcebf0249d0352ff2a988df00
+      uses: appleboy/scp-action@v0.1.1
+      with:
+        # scp remote host
+        host: ${{ secrets.APP_FI_HOST }}
+        # scp remote port
+        port: ${{ secrets.APP_FI_PORT }}
+        # scp username
+        username: ${{ secrets.APP_FI_USER }}
+        # scp password
+        password: ${{ secrets.APP_FI_PASSWORD }}
+        # target path on the server
+        target: webapps/
+        # scp file list
+        source: ${{ secrets.DEMO_NAME }}.war
+        fingerprint: ${{ secrets.APP_FI_SHA256 }}
