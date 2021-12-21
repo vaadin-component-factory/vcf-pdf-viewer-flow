@@ -6,7 +6,7 @@
 
     <groupId>org.vaadin.addons.componentfactory</groupId>
     <artifactId>vcf-pdf-viewer-demo</artifactId>
-    <version>1.0.2-SNAPSHOT</version>
+    <version>2.0.0</version>
 
     <name>Pdf Viewer Demo</name>
     <packaging>war</packaging>
@@ -18,8 +18,8 @@
     </organization>
 
     <properties>
-        <vaadin.version>14.6.4</vaadin.version>
-        <flow.version>2.6.4</flow.version>
+        <vaadin.version>22.0.1</vaadin.version>
+        <flow.version>9.0.1</flow.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
