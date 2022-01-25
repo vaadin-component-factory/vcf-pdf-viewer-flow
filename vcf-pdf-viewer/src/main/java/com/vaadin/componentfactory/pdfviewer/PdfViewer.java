@@ -36,7 +36,7 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.server.AbstractStreamResource;
 
 @Tag("vcf-pdf-viewer")
-@NpmPackage(value = "@vaadin-component-factory/vcf-pdf-viewer", version = "^1.0.0")
+@NpmPackage(value = "@vaadin-component-factory/vcf-pdf-viewer", version = "^1.0.1")
 @JsModule("@vaadin-component-factory/vcf-pdf-viewer/vcf-pdf-viewer.js")
 @CssImport(value = "./styles/download-button.css", themeFor = "vaadin-button")
 public class PdfViewer extends Div {
