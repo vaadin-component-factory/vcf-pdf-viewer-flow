@@ -46,3 +46,5 @@ webpack.generated.js
 
 timeline/src/main/resources/rebel.xml
 .vscode
+vcf-pdf-viewer-demo/frontend/generated/index.ts
+vcf-pdf-viewer-demo/frontend/index.html
