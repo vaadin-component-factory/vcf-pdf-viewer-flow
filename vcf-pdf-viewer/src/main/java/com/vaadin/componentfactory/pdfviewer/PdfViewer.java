@@ -36,7 +36,7 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.server.AbstractStreamResource;
 
 @Tag("vcf-pdf-viewer")
-@NpmPackage(value = "@vaadin-component-factory/vcf-pdf-viewer", version = "1.0.2")
+@NpmPackage(value = "@vaadin-component-factory/vcf-pdf-viewer", version = "1.0.3")
 @JsModule("@vaadin-component-factory/vcf-pdf-viewer/vcf-pdf-viewer.js")
 @CssImport(value = "./styles/download-button.css", themeFor = "vaadin-button")
 public class PdfViewer extends Div {
@@ -130,6 +130,22 @@ public class PdfViewer extends Div {
     getElement().executeJs("this.setCurrentPage($0)", currentPage);
   }
 
+  /**
+   * Indicates if toolbar should only show filename as title or default title.
+   * By default is set to false, so default title will be display if not specified otherwise.
+   * 
+   * <p>Conditions:</p> 
+   * <ul>
+   * <li>Pdf file should have a filename.</li>
+   * <li>This flag should be set on pdf viewer initialization time. It cannot but updated dinamically.</li>
+   * </ul>
+   * 
+   * @param filenameOnly if true, toolbar only shows filename as title 
+   */
+  public void showFilenameOnly(boolean filenameOnly) {
+    getElement().setProperty("toolbarOnlyFilename", filenameOnly);
+  }
+  
   @Override
   protected void onAttach(AttachEvent attachEvent) {
     super.onAttach(attachEvent);
