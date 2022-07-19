@@ -19,9 +19,11 @@ public class MainLayout extends AppLayout {
         new RouterLink("Thumbnail listener example", ThumbnailsListenerExample.class);
     final RouterLink selectPageExample =
         new RouterLink("Set page example", SelectPagePdfViewerExample.class);
+    final RouterLink customAutoFitZoomLabelsExample =
+        new RouterLink("Custom label for auto and page fit options", CustomAutoFitZoomLabelsExample.class);
 
     final VerticalLayout menuLayout = new VerticalLayout(basicExample, zoomExample,
-        thumbnailsOpenExample, thumbnailsListenerExample, selectPageExample);
+        thumbnailsOpenExample, thumbnailsListenerExample, selectPageExample, customAutoFitZoomLabelsExample);
     addToDrawer(menuLayout);
     addToNavbar(drawerToggle);
   }
