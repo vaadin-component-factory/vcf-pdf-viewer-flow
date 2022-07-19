@@ -145,6 +145,28 @@ public class PdfViewer extends Div {
   public void showFilenameOnly(boolean filenameOnly) {
     getElement().setProperty("toolbarOnlyFilename", filenameOnly);
   }
+
+  /**
+   * Sets the auto zoom option label.
+   * This property should be set on pdf viewer initialization time. It cannot but
+   * updated dinamically.
+   * 
+   * @param autoZoomOptionLabel auto zoom option label
+   */
+  public void setAutoZoomOptionLabel(String autoZoomOptionLabel) {
+    getElement().setProperty("autoZoomOptionLabel", autoZoomOptionLabel);
+  }
+
+  /**
+   * Sets the page fit zoom option label.
+   * This property should be set on pdf viewer initialization time. It cannot but
+   * updated dinamically.
+   * 
+   * @param fitZoomOptionLabel page fit zoom option label
+   */
+  public void setPageFitZoomOptionLabel(String fitZoomOptionLabel) {
+    getElement().setProperty("fitZoomOptionLabel", fitZoomOptionLabel);
+  }
   
   @Override
   protected void onAttach(AttachEvent attachEvent) {
