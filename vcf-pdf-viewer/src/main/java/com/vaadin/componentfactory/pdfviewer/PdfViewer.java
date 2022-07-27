@@ -41,6 +41,9 @@ import com.vaadin.flow.server.AbstractStreamResource;
 @CssImport(value = "./styles/download-button.css", themeFor = "vaadin-button")
 public class PdfViewer extends Div {
 
+  /* Indicates if download button is added or not */
+  private boolean addDownloadButton = true;
+  
   public PdfViewer() {}
 
   /**
@@ -168,10 +171,32 @@ public class PdfViewer extends Div {
     getElement().setProperty("fitZoomOptionLabel", fitZoomOptionLabel);
   }
   
+  /**
+   * Returns whether download button is added to the toolbar or not.
+   * 
+   * @return true if download button is added
+   */
+  public boolean isAddDownloadButton() {
+    return addDownloadButton;
+  }
+
+  /**
+   * <p>Sets the flag to indicate if download button should be added or not. 
+   * By default the flag is set to true, so download button is always added to the toolbar. </p>
+   * <p>This flag should be set on pdf viewer initialization time. It cannot be updated dynamically.</p>
+   * 
+   * @param addDownloadButton true if download button should be added
+   */
+  public void setAddDownloadButton(boolean addDownloadButton) {
+    this.addDownloadButton = addDownloadButton;
+  }
+
   @Override
   protected void onAttach(AttachEvent attachEvent) {
     super.onAttach(attachEvent);
-    addDownloadButton();
+    if(addDownloadButton) {
+      addDownloadButton();
+    }
   }
 
   /**
