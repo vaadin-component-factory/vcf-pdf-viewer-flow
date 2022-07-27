@@ -19,20 +19,24 @@ public class MainLayout extends AppLayout {
         new RouterLink("Thumbnail listener example", ThumbnailsListenerExample.class);
     final RouterLink selectPageExample =
         new RouterLink("Set page example", SelectPagePdfViewerExample.class);
-    final RouterLink customAutoFitZoomLabelsExample =
-        new RouterLink("Custom label for auto and page fit options", CustomAutoFitZoomLabelsExample.class);
+    final RouterLink customAutoFitZoomLabelsExample = new RouterLink(
+        "Custom label for auto and page fit options", CustomAutoFitZoomLabelsExample.class);
+    final RouterLink withoutDownloadExample =
+        new RouterLink("Without download option", WithoutDownloadExample.class);
 
     final VerticalLayout menuLayout = new VerticalLayout(basicExample, zoomExample,
-        thumbnailsOpenExample, thumbnailsListenerExample, selectPageExample, customAutoFitZoomLabelsExample);
+        thumbnailsOpenExample, thumbnailsListenerExample, selectPageExample,
+        customAutoFitZoomLabelsExample, withoutDownloadExample);
     addToDrawer(menuLayout);
     addToNavbar(drawerToggle);
   }
+
   @Override
   public void setContent(Component content) {
-      super.setContent(content);
-      content.getElement().getStyle().set("height", "100%");
-      content.getElement().getStyle().set("overflow", "hidden");
-      content.getElement().getStyle().set("display", "flex");
-      content.getElement().getStyle().set("flex-direction", "column");
+    super.setContent(content);
+    content.getElement().getStyle().set("height", "100%");
+    content.getElement().getStyle().set("overflow", "hidden");
+    content.getElement().getStyle().set("display", "flex");
+    content.getElement().getStyle().set("flex-direction", "column");
   }
 }
