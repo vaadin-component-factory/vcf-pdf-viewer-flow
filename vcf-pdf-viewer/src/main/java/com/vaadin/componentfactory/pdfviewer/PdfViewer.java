@@ -180,6 +180,7 @@ public class PdfViewer extends Div {
   private void addDownloadButton() {
     String src = this.getSrc(); 
     Anchor link = new Anchor(src, "");   
+    link.setTabIndex(-1);    
     Button downloadButton = new Button();
     downloadButton.getElement().appendChild(new Icon(VaadinIcon.DOWNLOAD).getElement());
     downloadButton.setThemeName("download-button");
