@@ -137,7 +137,7 @@ public class PdfViewer extends Div {
    * <p>Conditions:</p> 
    * <ul>
    * <li>Pdf file should have a filename.</li>
-   * <li>This flag should be set on pdf viewer initialization time. It cannot but updated dinamically.</li>
+   * <li>This flag should be set on pdf viewer initialization time. It cannot be updated dynamically.</li>
    * </ul>
    * 
    * @param filenameOnly if true, toolbar only shows filename as title 
@@ -147,9 +147,9 @@ public class PdfViewer extends Div {
   }
 
   /**
-   * Sets the auto zoom option label.
-   * This property should be set on pdf viewer initialization time. It cannot but
-   * updated dinamically.
+   * <p>Sets the auto zoom option label.</p>
+   * <p>This property should be set on pdf viewer initialization time. It cannot be
+   * updated dynamically.</p>
    * 
    * @param autoZoomOptionLabel auto zoom option label
    */
@@ -158,9 +158,9 @@ public class PdfViewer extends Div {
   }
 
   /**
-   * Sets the page fit zoom option label.
-   * This property should be set on pdf viewer initialization time. It cannot but
-   * updated dinamically.
+   * <p>Sets the page fit zoom option label.</p>
+   * <p>This property should be set on pdf viewer initialization time. It cannot be
+   * updated dynamically.</p>
    * 
    * @param fitZoomOptionLabel page fit zoom option label
    */
