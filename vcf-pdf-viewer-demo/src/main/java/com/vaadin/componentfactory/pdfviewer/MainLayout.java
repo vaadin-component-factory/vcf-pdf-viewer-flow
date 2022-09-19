@@ -23,10 +23,12 @@ public class MainLayout extends AppLayout {
         "Custom label for auto and page fit options", CustomAutoFitZoomLabelsExample.class);
     final RouterLink withoutDownloadExample =
         new RouterLink("Without download option", WithoutDownloadExample.class);
+    final RouterLink customTitleExample =
+        new RouterLink("Custom title", CustomTitleExample.class);
 
     final VerticalLayout menuLayout = new VerticalLayout(basicExample, zoomExample,
         thumbnailsOpenExample, thumbnailsListenerExample, selectPageExample,
-        customAutoFitZoomLabelsExample, withoutDownloadExample);
+        customAutoFitZoomLabelsExample, withoutDownloadExample, customTitleExample);
     addToDrawer(menuLayout);
     addToNavbar(drawerToggle);
   }
