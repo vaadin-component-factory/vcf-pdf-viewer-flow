@@ -36,7 +36,7 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.server.AbstractStreamResource;
 
 @Tag("vcf-pdf-viewer")
-@NpmPackage(value = "@vaadin-component-factory/vcf-pdf-viewer", version = "1.1.1")
+@NpmPackage(value = "@vaadin-component-factory/vcf-pdf-viewer", version = "1.2.0")
 @JsModule("@vaadin-component-factory/vcf-pdf-viewer/vcf-pdf-viewer.js")
 @CssImport(value = "./styles/download-button.css", themeFor = "vaadin-button")
 public class PdfViewer extends Div {
@@ -189,6 +189,24 @@ public class PdfViewer extends Div {
    */
   public void setAddDownloadButton(boolean addDownloadButton) {
     this.addDownloadButton = addDownloadButton;
+  }
+
+  /**
+   * @return custom title 
+   */
+  public String getCustomTitle() {
+    return getElement().getProperty("customTitle");
+  }
+
+  /**
+   * <p>Sets a custom title for the viewer. If this value is set, it will ignore the filename and the
+   * metadata title of the pdf file.</p>
+   * <p>This value should be set on pdf viewer initialization time. It cannot be updated dynamically.</p>
+   * 
+   * @param customTitle
+   */
+  public void setCustomTitle(String customTitle) {
+    getElement().setProperty("customTitle", customTitle);
   }
 
   @Override
