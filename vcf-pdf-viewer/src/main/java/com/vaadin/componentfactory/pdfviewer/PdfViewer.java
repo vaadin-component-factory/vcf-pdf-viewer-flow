@@ -37,12 +37,19 @@ import com.vaadin.flow.server.AbstractStreamResource;
 
 @Tag("vcf-pdf-viewer")
 @NpmPackage(value = "@vaadin-component-factory/vcf-pdf-viewer", version = "1.2.0")
+@NpmPackage(value = "print-js", version = "1.6.0")
 @JsModule("@vaadin-component-factory/vcf-pdf-viewer/vcf-pdf-viewer.js")
-@CssImport(value = "./styles/download-button.css", themeFor = "vaadin-button")
+@JsModule("./src/pdf-print.js")
+@CssImport(value = "./styles/toolbar-button.css", themeFor = "vaadin-button")
+@CssImport("print-js/dist/print.css")
 public class PdfViewer extends Div {
 
   /* Indicates if download button is added or not */
   private boolean addDownloadButton = true;
+
+  
+  /* Indicates if print button is added to toolbar or not */
+  private boolean addPrintButton = false;
   
   public PdfViewer() {}
 
@@ -209,11 +216,34 @@ public class PdfViewer extends Div {
     getElement().setProperty("customTitle", customTitle);
   }
 
+   /**
+   * Returns whether print button is added to the toolbar or not.
+   * 
+   * @return true if print button is added to toolbar
+   */
+  public boolean isAddPrintButton() {
+    return addPrintButton;
+  }
+
+  /**
+   * <p>Sets the flag to indicate if print button should be added to toolbar or not. 
+   * By default the flag is set to false, so, by default print button is not added to the toolbar. </p>
+   * <p>This flag should be set on pdf viewer initialization time. It cannot be updated dynamically.</p>
+   * 
+   * @param addPrintButton true if print button should be added to toolbar
+   */
+  public void setAddPrintButton(boolean addPrintButton) {
+    this.addPrintButton = addPrintButton;
+  }
+
   @Override
   protected void onAttach(AttachEvent attachEvent) {
     super.onAttach(attachEvent);
     if(addDownloadButton) {
       addDownloadButton();
+    }
+    if(addPrintButton){
+      addPrintButton();
     }
   }
 
@@ -231,4 +261,15 @@ public class PdfViewer extends Div {
     link.getElement().setAttribute("download", true);
     getElement().appendChild(link.getElement());
   }
+
+  /**
+   * Adds button to print the pdf file that's on display in the viewer.
+   */
+  private void addPrintButton() {
+    Button printButton = new Button(new Icon(VaadinIcon.PRINT));
+    printButton.setThemeName("print-button");
+    getElement().appendChild(printButton.getElement());
+    printButton.addClickListener(e -> this.getElement().executeJs("printPdf.printPdf($0)", this.getSrc()));
+  }
+
 }
