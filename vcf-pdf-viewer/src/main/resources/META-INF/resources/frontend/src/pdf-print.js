@@ -22,7 +22,10 @@ import 'print-js/dist/print.js';
 
 window.printPdf = {
 
-    printPdf: function(pdfFilePath) {
-        printJS(pdfFilePath);
-    }
+	printPdf: function(pdfFilePath) {
+		printJS({
+			printable: pdfFilePath,
+        	type: 'pdf'
+		});
+	}
 }
