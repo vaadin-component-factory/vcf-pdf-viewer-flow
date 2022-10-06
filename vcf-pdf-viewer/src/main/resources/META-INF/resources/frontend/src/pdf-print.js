@@ -1,6 +1,6 @@
 /*-
  * #%L
- * Timeline
+ * Pdf Viewer
  * %%
  * Copyright (C) 2022 Vaadin Ltd
  * %%
@@ -18,7 +18,7 @@
  * #L%
  */
 
-import 'print-js/dist/print.js';
+import printJS from '../print-js/dist/print.js';
 
 window.printPdf = {
 
