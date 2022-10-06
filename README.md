@@ -16,6 +16,10 @@ Pdf Viewer component provides support to the following features:
 - Add a listener on change page when clicking on thumbnail.
 - Download the pdf file.
 
+From version 2.5.x:
+
+- Printing the pdf file (implemented with [Print.js](https://www.npmjs.com/package/print-js)).
+
 ## Development instructions
 
 - Build the project and install the add-on locally:
