@@ -18,7 +18,7 @@
  * #L%
  */
 
-import printJS from '../print-js/dist/print.js';
+import '../print-js/dist/print.js';
 
 window.printPdf = {
 
