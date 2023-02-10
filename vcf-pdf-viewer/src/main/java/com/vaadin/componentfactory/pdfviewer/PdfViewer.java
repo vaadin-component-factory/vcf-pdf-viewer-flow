@@ -235,7 +235,20 @@ public class PdfViewer extends Div {
   public void setAddPrintButton(boolean addPrintButton) {
     this.addPrintButton = addPrintButton;
   }
-  
+
+  /**
+   * <p>Sets the flag to indicate how to render interactive forms. 
+   * Renders interactive form elements in the annotation layer (html) if true,
+   * renders values of form elements directly onto the canvas if false.
+   * By default the flag is set to true. </p>
+   * <p>This flag should be set on pdf viewer initialization time. It cannot be updated dynamically.</p>  
+   * 
+   * @param renderInteractiveForms 
+   */
+  public void setRenderInteractiveForms(boolean renderInteractiveForms) {
+    this.getElement().setProperty("renderInteractiveForms", renderInteractiveForms);
+  }	
+   
   @Override
   protected void onAttach(AttachEvent attachEvent) {
     super.onAttach(attachEvent);
