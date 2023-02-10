@@ -248,6 +248,17 @@ public class PdfViewer extends Div {
   public void setRenderInteractiveForms(boolean renderInteractiveForms) {
     this.getElement().setProperty("renderInteractiveForms", renderInteractiveForms);
   }	
+  
+  /**
+   * <p>Sets the flag to indicate if zoom options dropdown should be visible or not. 
+   * By default the flag is set to false, so, the dropdown is always shown. </p>
+   * <p>This flag should be set on pdf viewer initialization time. It cannot be updated dynamically.</p>
+   * 
+   * @param hideZoom true to hide the zoom dropdown
+   */
+  public void hideZoom(boolean hideZoom) {
+	  this.getElement().setProperty("hideZoom", hideZoom);
+  }
    
   @Override
   protected void onAttach(AttachEvent attachEvent) {
