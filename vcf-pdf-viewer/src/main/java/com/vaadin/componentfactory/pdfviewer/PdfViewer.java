@@ -280,6 +280,7 @@ public class PdfViewer extends Div {
     link.setTabIndex(-1);    
     Button downloadButton = new Button();
     downloadButton.getElement().appendChild(new Icon(VaadinIcon.DOWNLOAD).getElement());
+    downloadButton.getElement().setAttribute("aria-label", "Download file");
     downloadButton.setThemeName("download-button");
     link.add(downloadButton);
     link.getElement().setAttribute("download", true);
@@ -291,6 +292,7 @@ public class PdfViewer extends Div {
    */
   private void addPrintButton() {
     Button printButton = new Button(new Icon(VaadinIcon.PRINT));
+    printButton.getElement().setAttribute("aria-label", "Print file");
     printButton.setThemeName("print-button");
     getElement().appendChild(printButton.getElement());
     printButton.addClickListener(e -> this.getElement().executeJs("printPdf.printPdf($0)", this.getSrc()));
