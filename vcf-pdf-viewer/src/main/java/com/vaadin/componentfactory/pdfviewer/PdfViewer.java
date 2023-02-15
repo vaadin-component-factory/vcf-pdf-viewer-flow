@@ -36,7 +36,7 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.server.AbstractStreamResource;
 
 @Tag("vcf-pdf-viewer")
-@NpmPackage(value = "@vaadin-component-factory/vcf-pdf-viewer", version = "1.3.0")
+@NpmPackage(value = "@vaadin-component-factory/vcf-pdf-viewer", version = "1.4.0")
 @NpmPackage(value = "print-js", version = "1.6.0")
 @JsModule("@vaadin-component-factory/vcf-pdf-viewer/vcf-pdf-viewer.js")
 @JsModule("./src/pdf-print.js")
