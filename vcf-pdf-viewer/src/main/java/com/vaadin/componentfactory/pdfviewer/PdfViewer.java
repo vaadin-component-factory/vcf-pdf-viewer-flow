@@ -46,6 +46,7 @@ public class PdfViewer extends Div {
 
   /* Indicates if download button is added or not */
   private boolean addDownloadButton = true;
+  private Anchor downloadLink;
 
   
   /* Indicates if print button is added to toolbar or not */
@@ -67,6 +68,7 @@ public class PdfViewer extends Div {
    */
   public void setSrc(String src) {
     this.getElement().setAttribute("src", src);
+    updateDownloadSource();
   }
 
   /**
@@ -79,6 +81,7 @@ public class PdfViewer extends Div {
    */
   public void setSrc(AbstractStreamResource src) {
     getElement().setAttribute("src", src);
+    updateDownloadSource();
   }
 
   /**
@@ -275,16 +278,25 @@ public class PdfViewer extends Div {
    * Adds button to download pdf file currently on display.
    */
   private void addDownloadButton() {
-    String src = this.getSrc(); 
-    Anchor link = new Anchor(src, "");   
-    link.setTabIndex(-1);    
+    String src = this.getSrc();
+    downloadLink = new Anchor(src, "");
+    downloadLink.setTabIndex(-1);
     Button downloadButton = new Button();
     downloadButton.getElement().appendChild(new Icon(VaadinIcon.DOWNLOAD).getElement());
     downloadButton.getElement().setAttribute("aria-label", "Download file");
     downloadButton.setThemeName("download-button");
-    link.add(downloadButton);
-    link.getElement().setAttribute("download", true);
-    getElement().appendChild(link.getElement());
+    downloadLink.add(downloadButton);
+    downloadLink.getElement().setAttribute("download", true);
+    getElement().appendChild(downloadLink.getElement());
+  }
+
+  /**
+   * Update the href for the download link based on the current pdf src.
+   */
+  private void updateDownloadSource() {
+    if (downloadLink != null) {
+      downloadLink.setHref(this.getSrc());
+    }
   }
 
   /**
