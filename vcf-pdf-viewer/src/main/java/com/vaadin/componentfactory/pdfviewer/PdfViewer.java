@@ -44,6 +44,8 @@ import org.apache.commons.lang3.StringUtils;
 @CssImport(value = "./styles/toolbar-button.css", themeFor = "vaadin-button")
 @CssImport("print-js/dist/print.css")
 public class PdfViewer extends Div {
+
+  private Button downloadButton;
 	
   /* Indicates if download button is added or not */
   private boolean addDownloadButton = true;
@@ -286,10 +288,11 @@ public class PdfViewer extends Div {
     	downloadLink.setText("");
     }    
     downloadLink.setTabIndex(-1);
-    Button downloadButton = new Button();
+    downloadButton = new Button();
     downloadButton.getElement().appendChild(new Icon(VaadinIcon.DOWNLOAD).getElement());
     downloadButton.getElement().setAttribute("aria-label", "Download file");
     downloadButton.setThemeName("download-button");
+    downloadButton.setEnabled(StringUtils.isNotBlank(src));
     downloadLink.add(downloadButton);
     downloadLink.getElement().setAttribute("download", true);
     getElement().appendChild(downloadLink.getElement());
@@ -300,7 +303,9 @@ public class PdfViewer extends Div {
    */
   private void updateDownloadSource() {
     if (downloadLink != null) {
-      downloadLink.setHref(this.getSrc());
+      String src = this.getSrc();
+      downloadLink.setHref(src);
+      downloadButton.setEnabled(StringUtils.isNotBlank(src));
     }
   }
 
