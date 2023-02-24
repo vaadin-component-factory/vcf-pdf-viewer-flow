@@ -31,11 +31,13 @@ public class MainLayout extends AppLayout {
             new RouterLink("Rendering interactive forms", RenderingInteractiveFormsExample.class);
     final RouterLink withoutZoomDropdownExample =
             new RouterLink("Without zoom dropdown", WithoutZoomDropdownExample.class);
+    final RouterLink sourceChangeExample =
+            new RouterLink("Source change", SourceChangeExample.class);
 
     final VerticalLayout menuLayout = new VerticalLayout(basicExample, zoomExample,
         thumbnailsOpenExample, thumbnailsListenerExample, selectPageExample,
         customAutoFitZoomLabelsExample, withoutDownloadExample, customTitleExample, withPrintOptionExample,
-        renderingInteractiveFormsExample, withoutZoomDropdownExample);
+        renderingInteractiveFormsExample, withoutZoomDropdownExample, sourceChangeExample);
     addToDrawer(menuLayout);
     addToNavbar(drawerToggle);
   }
