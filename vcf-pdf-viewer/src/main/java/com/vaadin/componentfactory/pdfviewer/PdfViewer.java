@@ -34,6 +34,7 @@ import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.server.AbstractStreamResource;
+import org.apache.commons.lang3.StringUtils;
 
 @Tag("vcf-pdf-viewer")
 @NpmPackage(value = "@vaadin-component-factory/vcf-pdf-viewer", version = "1.4.0")
@@ -43,12 +44,11 @@ import com.vaadin.flow.server.AbstractStreamResource;
 @CssImport(value = "./styles/toolbar-button.css", themeFor = "vaadin-button")
 @CssImport("print-js/dist/print.css")
 public class PdfViewer extends Div {
-
+	
   /* Indicates if download button is added or not */
   private boolean addDownloadButton = true;
   private Anchor downloadLink;
 
-  
   /* Indicates if print button is added to toolbar or not */
   private boolean addPrintButton = false;
   
@@ -279,7 +279,12 @@ public class PdfViewer extends Div {
    */
   private void addDownloadButton() {
     String src = this.getSrc();
-    downloadLink = new Anchor(src, "");
+    if(StringUtils.isNotBlank(src)) {
+    	downloadLink = new Anchor(src, "");
+    } else {
+    	downloadLink = new Anchor();
+    	downloadLink.setText("");
+    }    
     downloadLink.setTabIndex(-1);
     Button downloadButton = new Button();
     downloadButton.getElement().appendChild(new Icon(VaadinIcon.DOWNLOAD).getElement());
