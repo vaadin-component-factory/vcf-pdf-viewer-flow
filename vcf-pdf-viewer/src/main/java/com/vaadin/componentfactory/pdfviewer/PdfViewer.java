@@ -1,6 +1,6 @@
 /*-
  * #%L
- * Timeline
+ * Timeli
  * %%
  * Copyright (C) 2021 Vaadin Ltd
  * %%
@@ -46,15 +46,18 @@ import org.apache.commons.lang3.StringUtils;
 public class PdfViewer extends Div {
 
   private Button downloadButton;
-	
+  private Button printButton;
+
   /* Indicates if download button is added or not */
   private boolean addDownloadButton = true;
   private Anchor downloadLink;
 
   /* Indicates if print button is added to toolbar or not */
   private boolean addPrintButton = false;
-  
-  public PdfViewer() {}
+
+  public PdfViewer() {
+    setAddDownloadButton(true);	  
+  }
 
   /**
    * @return url to source file
@@ -201,6 +204,16 @@ public class PdfViewer extends Div {
    */
   public void setAddDownloadButton(boolean addDownloadButton) {
     this.addDownloadButton = addDownloadButton;
+    if (addDownloadButton) {
+       runBeforeClientResponse(ui -> {
+         addDownloadButton();
+       });
+    } else if (downloadLink != null) {
+       runBeforeClientResponse(ui -> {
+         getElement().removeChild(downloadLink.getElement());
+         downloadLink == null;
+       });
+    }
   }
 
   /**
@@ -239,6 +252,16 @@ public class PdfViewer extends Div {
    */
   public void setAddPrintButton(boolean addPrintButton) {
     this.addPrintButton = addPrintButton;
+    if (addPrintButton) {
+       runBeforeClientResponse(ui -> {
+         addPrintButton();
+       });
+    } else if (printButton != null) {
+       runBeforeClientResponse(ui -> {
+         getElement().removeChild(printButton.getElement());
+         printButton == null;
+       });
+    }
   }
 
   /**
@@ -264,16 +287,10 @@ public class PdfViewer extends Div {
   public void hideZoom(boolean hideZoom) {
 	  this.getElement().setProperty("hideZoom", hideZoom);
   }
-   
-  @Override
-  protected void onAttach(AttachEvent attachEvent) {
-    super.onAttach(attachEvent);
-    if(addDownloadButton) {
-      addDownloadButton();
-    }
-    if(addPrintButton){
-      addPrintButton();
-    }
+
+  private void runBeforeClientResponse(SerializableConsumer<UI> command) {
+    getElement().getNode().runWhenAttached(ui -> ui
+            .beforeClientResponse(this, context -> command.accept(ui)));
   }
 
   /**
@@ -313,7 +330,7 @@ public class PdfViewer extends Div {
    * Adds button to print the pdf file that's on display in the viewer.
    */
   private void addPrintButton() {
-    Button printButton = new Button(new Icon(VaadinIcon.PRINT));
+    printButton = new Button(new Icon(VaadinIcon.PRINT));
     printButton.getElement().setAttribute("aria-label", "Print file");
     printButton.setThemeName("print-button");
     getElement().appendChild(printButton.getElement());
