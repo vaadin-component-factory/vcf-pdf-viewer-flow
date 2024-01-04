@@ -1,6 +1,6 @@
 /*-
  * #%L
- * Timeline
+ * Pdf Viewer
  * %%
  * Copyright (C) 2021 Vaadin Ltd
  * %%
