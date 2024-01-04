@@ -23,6 +23,7 @@ package com.vaadin.componentfactory.pdfviewer;
 import com.vaadin.componentfactory.pdfviewer.event.ThumbnailClickedEvent;
 import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.ComponentEventListener;
+import com.vaadin.flow.component.DetachEvent;
 import com.vaadin.flow.component.Synchronize;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.button.Button;
@@ -53,6 +54,7 @@ public class PdfViewer extends Div {
 
   /* Indicates if print button is added to toolbar or not */
   private boolean addPrintButton = false;
+  private Button printButton;
   
   public PdfViewer() {}
 
@@ -275,6 +277,17 @@ public class PdfViewer extends Div {
       addPrintButton();
     }
   }
+  
+  @Override
+  protected void onDetach(DetachEvent detachEvent) {
+    super.onDetach(detachEvent);
+    if(addDownloadButton) {
+      this.getElement().removeChild(downloadLink.getElement());
+    }
+    if(addPrintButton){
+      this.getElement().removeChild(printButton.getElement());
+    }
+  }
 
   /**
    * Adds button to download pdf file currently on display.
@@ -313,7 +326,7 @@ public class PdfViewer extends Div {
    * Adds button to print the pdf file that's on display in the viewer.
    */
   private void addPrintButton() {
-    Button printButton = new Button(new Icon(VaadinIcon.PRINT));
+    printButton = new Button(new Icon(VaadinIcon.PRINT));
     printButton.getElement().setAttribute("aria-label", "Print file");
     printButton.setThemeName("print-button");
     getElement().appendChild(printButton.getElement());
