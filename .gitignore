@@ -43,8 +43,11 @@ package-lock.json
 package.json
 webpack.config.js
 webpack.generated.js
-
-timeline/src/main/resources/rebel.xml
+tsconfig.json
+types.d.ts
+pnpmfile.js
+pnpm-lock.yaml
 .vscode
 vcf-pdf-viewer-demo/frontend/index.html
 vcf-pdf-viewer-demo/frontend/generated/index.ts
+vcf-pdf-viewer-demo/frontend/generated/vaadin.ts
