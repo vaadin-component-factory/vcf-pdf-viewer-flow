@@ -1,5 +1,7 @@
 # Pdf Viewer component for Vaadin Flow
 
+## Get this fork via [JitPack](https://jitpack.io/#Osiris-Team/vcf-pdf-viewer-flow/LATEST).
+
 This is the server-side component of [&lt;vcf-pdf-viewer&gt; Web Component](https://github.com/vaadin-component-factory/vcf-pdf-viewer). The component uses [PDF.js](https://github.com/mozilla/pdf.js) library to display pdf files.
 
 This component is part of Vaadin Component Factory.
