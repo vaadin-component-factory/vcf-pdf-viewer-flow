@@ -19,7 +19,6 @@
  */
 package com.vaadin.componentfactory.pdfviewer;
 
-import jdk.internal.org.jline.utils.OSUtils;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
@@ -30,6 +29,8 @@ import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
+
+import static sun.font.FontUtilities.isWindows;
 
 public class Utils {
 
@@ -57,8 +58,8 @@ public class Utils {
         String classpath = System.getProperty("java.class.path");
         Exception e = null;
         try {
-            if (OSUtils.IS_WINDOWS) fullPath = fullPath.replace("/", "\\");
-            String[] dirs = OSUtils.IS_WINDOWS ? classpath.split(";") : classpath.split(":");
+            if (isWindows) fullPath = fullPath.replace("/", "\\");
+            String[] dirs = isWindows ? classpath.split(";") : classpath.split(":");
             for (String _dir : dirs) {
                 File dir = new File(_dir);
                 Iterator<File> it = FileUtils.iterateFiles(dir, null, true);
