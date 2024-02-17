@@ -46,15 +46,15 @@ import org.apache.commons.lang3.StringUtils;
 @CssImport("print-js/dist/print.css")
 public class PdfViewer extends Div {
 
-  private Button downloadButton;
+  public Button downloadButton;
 	
   /* Indicates if download button is added or not */
   private boolean addDownloadButton = true;
-  private Anchor downloadLink;
+  public Anchor downloadLink;
 
   /* Indicates if print button is added to toolbar or not */
   private boolean addPrintButton = false;
-  private Button printButton;
+  public Button printButton;
   
   public PdfViewer() {}
 

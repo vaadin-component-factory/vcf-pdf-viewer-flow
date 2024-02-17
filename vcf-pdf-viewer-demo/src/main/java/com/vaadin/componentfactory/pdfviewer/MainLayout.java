@@ -12,6 +12,7 @@ public class MainLayout extends AppLayout {
     final DrawerToggle drawerToggle = new DrawerToggle();
 
     final RouterLink basicExample = new RouterLink("Basic example", BasicPdfViewerExample.class);
+    final RouterLink basicEditorExample = new RouterLink("Basic editor example", BasicPdfEditorExample.class);
     final RouterLink zoomExample = new RouterLink("Zoom example", AdjustZoomPdfViewerExample.class);
     final RouterLink thumbnailsOpenExample =
         new RouterLink("Thumbnail viewer open example", ThumbnailsViewerOpenExample.class);
@@ -34,7 +35,7 @@ public class MainLayout extends AppLayout {
     final RouterLink sourceChangeExample =
             new RouterLink("Source change", SourceChangeExample.class);
 
-    final VerticalLayout menuLayout = new VerticalLayout(basicExample, zoomExample,
+    final VerticalLayout menuLayout = new VerticalLayout(basicExample, basicEditorExample, zoomExample,
         thumbnailsOpenExample, thumbnailsListenerExample, selectPageExample,
         customAutoFitZoomLabelsExample, withoutDownloadExample, customTitleExample, withPrintOptionExample,
         renderingInteractiveFormsExample, withoutZoomDropdownExample, sourceChangeExample);
