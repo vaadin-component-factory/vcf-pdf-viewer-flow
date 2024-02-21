@@ -22,31 +22,28 @@ package com.vaadin.componentfactory.pdfviewer;
 
 import com.vaadin.flow.component.ClientCallable;
 import com.vaadin.flow.component.HasStyle;
-import com.vaadin.flow.component.Html;
-import com.vaadin.flow.component.dependency.CssImport;
-import com.vaadin.flow.dom.Element;
+import com.vaadin.flow.component.html.IFrame;
 import com.vaadin.flow.server.AbstractStreamResource;
 import com.vaadin.flow.server.StreamResource;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.fileupload.util.Streams;
 
-import javax.annotation.security.RunAs;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Consumer;
-@CssImport("./pdfjs/viewer.css")
+//@CssImport("./pdfjs/combined-viewer-prod.css")
 //@JsModule("https://mozilla.github.io/pdf.js/build/pdf.mjs")
 //@JsModule("https://mozilla.github.io/pdf.js/web/viewer.mjs")
-public class PdfEditorFrame extends Html implements HasStyle {
+public class PdfEditorFrame extends IFrame implements HasStyle {
     public CopyOnWriteArrayList<Consumer<String>> onSave = new CopyOnWriteArrayList<>();
     private static String editorHtml;
 
     static {
         try {
-            editorHtml = Streams.asString(Utils.getResource("/META-INF/resources/frontend/pdfjs/viewer.html"));
+            editorHtml = Streams.asString(Utils.getResource("/META-INF/resources/frontend/pdfjs/viewer-iframe.html"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -55,14 +52,24 @@ public class PdfEditorFrame extends Html implements HasStyle {
     public volatile boolean isPdfJsLoaded = false;
 
     public PdfEditorFrame() {
-        super(editorHtml);
+        setSrc(new StreamResource("pdf-editor.html", () -> new ByteArrayInputStream(editorHtml.getBytes())));
         addAttachListener(e -> {
             if(!e.isInitialAttach()) return;
             this.getElement().executeJs("" +
+                    "let this_ = this;\n" +
                     "async function loadScripts() {\n" +
                     "  try {\n" +
-                    "    const module = await import(\"https://mozilla.github.io/pdf.js/build/pdf.mjs\");\n" +
-                    "    const module2 = await import(\"https://mozilla.github.io/pdf.js/web/viewer.mjs\");" +
+                    "    window.onmessage = function(e) {\n" +
+                    "      let type = e.data.type;\n" +
+                    "      let msg = e.data.msg;\n" +
+                    "      if(type == 'save-response') this_.$server.pdfEditorSaveResponse(msg);\n" +
+                    "    }\n" +
+                    "    //const module = await import(\"https://mozilla.github.io/pdf.js/build/pdf.mjs\");\n" +
+                    "    //const module2 = await import(\"https://mozilla.github.io/pdf.js/web/viewer.mjs\");\n" +
+                    "    const promiseA = new Promise((resolve, reject) => {\n" +
+                    "      $0.onload = function() { resolve(0); };\n" +
+                    "    });" +
+                    "    await promiseA;\n" +
                     "    console.log('Pdf.js scripts loaded successfully!');\n" +
                     "  } catch (error) {\n" +
                     "    console.error('Error loading script!', error);\n" +
@@ -70,7 +77,7 @@ public class PdfEditorFrame extends Html implements HasStyle {
                     "}" +
                     "\n" +
                     "return loadScripts();\n" +
-                    "").then(e2 -> {
+                    "", this).then(e2 -> {
                         isPdfJsLoaded = true;
                 for (Runnable runnable : onPdfJsLoaded) {
                     runnable.run();
@@ -78,15 +85,33 @@ public class PdfEditorFrame extends Html implements HasStyle {
             });
         });
     }
-    private AbstractStreamResource src;
 
-    public void setSrc(String url){
-        executeSafeJS("" +
-                "console.log(`LOADING PDF FROM: " +url+"`)\n"+
-                "window.pdfjsLib.getDocument(`"+url+"`).promise.then((pdf) =>{\n" +
-                "    console.log(`PDF LOADED: `); console.log(pdf);" +
-                "    window.PDFViewerApplication.load(pdf)\n" +
-                "})");
+    public void sendMessage(String type, String msg){
+        executeSafeJS("$0.contentWindow.postMessage({'type': `"+type+"`, 'msg': `"+msg+"`}, '*');", this);
+    }
+
+
+    private AbstractStreamResource src;
+    private AbstractStreamResource pdfSrc;
+
+    public void setPdfSrc(StreamResource src){
+        this.pdfSrc = src;
+        getElement().setAttribute("pdfsrc", src);
+        String url = getElement().getAttribute("pdfsrc");
+        setPdfSrc(url);
+    }
+
+    public String getPdfSrcUrl() {
+        return getElement().getAttribute("pdfsrc");
+    }
+
+    public AbstractStreamResource getPdfSrc() {
+        return pdfSrc;
+    }
+
+    public void setPdfSrc(String url){
+        System.out.println("setPdfSrc: "+url);
+        sendMessage("change-pdf-request", url);
     }
 
     public void executeSafeJS(String js, Serializable... parameters){
@@ -101,26 +126,18 @@ public class PdfEditorFrame extends Html implements HasStyle {
         else this.getElement().executeJs(js, parameters); // Run now
     }
 
-    /**
-     * Sets a pdf file to render as a StreamResource.
-     * <p>
-     * Example: {@code StreamResource resource = new StreamResource("mypdf.pdf", ()
-     * -&gt; getPdfInputStream("mypdf.pdf");}
-     *
-     * @param src stream to file
-     */
     public void setSrc(AbstractStreamResource src) {
         this.src = src;
         getElement().setAttribute("src", src);
-        String url = getElement().getAttribute("src");
-        setSrc(url);
     }
 
     public String getSrcUrl() {
         return getElement().getAttribute("src");
     }
 
-    public AbstractStreamResource getSrc(){
+
+
+    public AbstractStreamResource getSrcStreamResource(){
         return src;
     }
 
@@ -131,21 +148,16 @@ public class PdfEditorFrame extends Html implements HasStyle {
         }
     }
 
-    public void save(Consumer<StreamResource> onPDFReceived){
+    public void save(Consumer<byte[]> onPDFReceived){
         onSave.add(new Consumer<String>() {
             @Override
             public void accept(String pdfBase64) {
                 byte[] pdf = Base64.decodeBase64(pdfBase64);
-                onPDFReceived.accept(new StreamResource("in-editor.pdf", () ->
-                        new ByteArrayInputStream(pdf)));
+                onPDFReceived.accept(pdf);
                 onSave.remove(this);
             }
         });
-        executeSafeJS("" +
-                "let u8 = window.PDFViewerApplication.pdfDocument.getData();\n" +
-                "let decoder = new TextDecoder('utf8');\n" +
-                "let b64encoded = btoa(decoder.decode(u8));\n" +
-                "this.$server.pdfEditorSaveResponse(b64encoded});\n");
+        sendMessage("save-request", "");
     }
 
 }

@@ -36,6 +36,7 @@ This deploys demo at http://localhost:8080
 
 ## How to use it - Example
 
+### Viewer
 ```java
 PdfViewer pdfViewer = new PdfViewer();
 StreamResource resource = new StreamResource("example.pdf", () -> getClass().getResourceAsStream("/pdf/example.pdf"));
@@ -43,6 +44,18 @@ pdfViewer.setSrc(resource);
 pdfViewer.openThumbnailsView();
 add(pdfViewer);    
 ```
+
+### Editor
+```java
+PdfEditor pdfEditor = new PdfEditor();
+StreamResource resource = new StreamResource("example.pdf", () -> getClass().getResourceAsStream("/pdf/example.pdf"));
+pdfEditor.setSrc(resource);
+pdfEditor.addSaveListener(pdfBytes -> {
+  System.out.println("PDF saved. Size in bytes: " + pdfBytes.length);
+});
+add(pdfEditor);   
+```
+
 ## Missing features or bugs
 
 You can report any issue or missing feature on [GitHub](https://github.com/vaadin-component-factory/vcf-pdf-viewer/issues).

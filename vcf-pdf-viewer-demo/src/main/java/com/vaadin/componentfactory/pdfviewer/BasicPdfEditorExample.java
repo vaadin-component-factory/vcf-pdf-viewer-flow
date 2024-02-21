@@ -14,6 +14,9 @@ public class BasicPdfEditorExample extends Div {
     pdfEditor.setSizeFull();
     StreamResource resource = new StreamResource("example.pdf", () -> getClass().getResourceAsStream("/pdf/example.pdf"));
     pdfEditor.setSrc(resource);
+    pdfEditor.addSaveListener(pdfBytes -> {
+      System.out.println("PDF saved. Size in bytes: " + pdfBytes.length);
+    });
     add(pdfEditor);    
   }
   

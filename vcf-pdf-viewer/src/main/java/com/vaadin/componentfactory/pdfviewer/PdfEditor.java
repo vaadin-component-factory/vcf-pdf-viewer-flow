@@ -64,14 +64,17 @@ public class PdfEditor extends VerticalLayout implements HasStyle {
     }
 
     public void setSrc(StreamResource pdf){
-        editorFrame.setSrc(pdf);
+        editorFrame.setPdfSrc(pdf);
     }
 
     public String getSrc(){
-        return editorFrame.getSrcUrl();
+        return editorFrame.getPdfSrcUrl();
     }
 
-    public void addSaveListener(Consumer<StreamResource> listener){
+    /**
+     * Gets executed when user clicks the save button and provides the edited pdf in binary format.
+     */
+    public void addSaveListener(Consumer<byte[]> listener){
         btnSave.addClickListener(e -> {
             editorFrame.save(listener);
         });
