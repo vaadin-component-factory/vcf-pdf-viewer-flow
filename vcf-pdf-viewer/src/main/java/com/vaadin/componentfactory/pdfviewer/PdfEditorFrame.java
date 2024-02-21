@@ -110,7 +110,6 @@ public class PdfEditorFrame extends IFrame implements HasStyle {
     }
 
     public void setPdfSrc(String url){
-        System.out.println("setPdfSrc: "+url);
         sendMessage("change-pdf-request", url);
     }
 
