@@ -25,6 +25,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <failOnMissingWebXml>false</failOnMissingWebXml>
+        <isLocalBuild>false</isLocalBuild>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -153,11 +154,11 @@
                             <goal>enforce</goal>
                         </goals>
                         <configuration>
-                            <skip>${env.JITPACK != 'true'}</skip>
+                            <skip>${isLocalBuild}</skip>
                             <rules>
                                 <requireProperty>
                                     <property>JITPACK</property>
-                                    <message>JITPACK environment variable must be set to 'true'</message>
+                                    <message>!!!!!!!!!!!!! isLocalBuild is set to false, thus FAIL to prevent building this in the cloud.</message>
                                     <regex>.*true.*</regex>
                                 </requireProperty>
                             </rules>
