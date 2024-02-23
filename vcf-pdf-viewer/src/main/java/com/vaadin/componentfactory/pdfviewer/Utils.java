@@ -21,6 +21,7 @@ package com.vaadin.componentfactory.pdfviewer;
 
 import org.apache.commons.io.FileUtils;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -90,4 +91,13 @@ public class Utils {
         return null;
     }
 
+    public static String toUTF8String(InputStream in) throws IOException {
+        ByteArrayOutputStream result = new ByteArrayOutputStream();
+        byte[] buffer = new byte[1024];
+        for (int length; (length = in.read(buffer)) != -1; ) {
+            result.write(buffer, 0, length);
+        }
+        // StandardCharsets.UTF_8.name() > JDK 7
+        return result.toString("UTF-8");
+    }
 }

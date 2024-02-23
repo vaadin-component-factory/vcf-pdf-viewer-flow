@@ -6,7 +6,7 @@
 
     <groupId>org.vaadin.addons.componentfactory</groupId>
     <artifactId>vcf-pdf-viewer-demo</artifactId>
-    <version>2.10.4-SNAPSHOT</version>
+    <version>2.11.0-SNAPSHOT</version>
 
     <name>Pdf Viewer Demo</name>
     <packaging>war</packaging>
@@ -130,7 +130,6 @@
     </dependencies>
 
     <build>
-
         <resources>
             <resource>
                 <directory>src/main/java</directory>
@@ -142,6 +141,31 @@
             </resource>
         </resources>
         <plugins>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <version>3.0.0</version>
+                <executions>
+                    <execution>
+                        <id>enforce-jitpack-profile</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <skip>${env.JITPACK != 'true'}</skip>
+                            <rules>
+                                <requireProperty>
+                                    <property>JITPACK</property>
+                                    <message>JITPACK environment variable must be set to 'true'</message>
+                                    <regex>.*true.*</regex>
+                                </requireProperty>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
             <!-- Jetty plugin for easy testing without a server -->
             <plugin>
                 <groupId>org.eclipse.jetty</groupId>

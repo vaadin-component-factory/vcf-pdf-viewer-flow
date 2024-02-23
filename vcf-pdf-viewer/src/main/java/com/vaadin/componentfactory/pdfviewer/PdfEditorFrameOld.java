@@ -22,7 +22,6 @@ package com.vaadin.componentfactory.pdfviewer;
 
 import com.vaadin.flow.component.ClientCallable;
 import com.vaadin.flow.component.HasStyle;
-import com.vaadin.flow.component.Html;
 import com.vaadin.flow.component.html.IFrame;
 import com.vaadin.flow.server.AbstractStreamResource;
 import com.vaadin.flow.server.StreamResource;
@@ -33,10 +32,11 @@ import java.io.Serializable;
 import java.util.Base64;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Consumer;
+
 //@CssImport("./pdfjs/combined-viewer-prod.css")
 //@JsModule("https://mozilla.github.io/pdf.js/build/pdf.mjs")
 //@JsModule("https://mozilla.github.io/pdf.js/web/viewer.mjs")
-public class PdfEditorFrame extends Html implements HasStyle {
+public class PdfEditorFrameOld extends IFrame implements HasStyle {
     public CopyOnWriteArrayList<Consumer<String>> onSave = new CopyOnWriteArrayList<>();
     private static String editorHtml;
 
@@ -50,13 +50,11 @@ public class PdfEditorFrame extends Html implements HasStyle {
     public CopyOnWriteArrayList<Runnable> onPdfJsLoaded = new CopyOnWriteArrayList<>();
     public volatile boolean isPdfJsLoaded = false;
 
-    public PdfEditorFrame() {
-        super(editorHtml);
+    public PdfEditorFrameOld() {
         setSrc(new StreamResource("pdf-editor.html", () -> new ByteArrayInputStream(editorHtml.getBytes())));
         addAttachListener(e -> {
             if(!e.isInitialAttach()) return;
             this.getElement().executeJs("" +
-                    "console.log(document.getElementsByClassName(`pdf-editor-html`)[0])\n" +
                     "let this_ = this;\n" +
                     "async function loadScripts() {\n" +
                     "  try {\n" +
@@ -65,12 +63,12 @@ public class PdfEditorFrame extends Html implements HasStyle {
                     "      let msg = e.data.msg;\n" +
                     "      if(type == 'save-response') this_.$server.pdfEditorSaveResponse(msg);\n" +
                     "    }\n" +
-                    "    const module = await import(\"https://mozilla.github.io/pdf.js/build/pdf.mjs\");\n" +
-                    "    const module2 = await import(\"https://mozilla.github.io/pdf.js/web/viewer.mjs\");\n" +
+                    "    //const module = await import(\"https://mozilla.github.io/pdf.js/build/pdf.mjs\");\n" +
+                    "    //const module2 = await import(\"https://mozilla.github.io/pdf.js/web/viewer.mjs\");\n" +
                     "    const promiseA = new Promise((resolve, reject) => {\n" +
                     "      $0.onload = function() { resolve(0); };\n" +
                     "    });" +
-                    "    //await promiseA;\n" +
+                    "    await promiseA;\n" +
                     "    console.log('Pdf.js scripts loaded successfully!');\n" +
                     "  } catch (error) {\n" +
                     "    console.error('Error loading script!', error);\n" +
@@ -111,20 +109,11 @@ public class PdfEditorFrame extends Html implements HasStyle {
     }
 
     public void setPdfSrc(String url){
-        executeSafeJS("let url = `"+url+"`\n" +
-                "              console.log(\"LOADING PDF FROM: \" + url)\n" +
-                "              window.pdfjsLib.getDocument(url).promise.then((pdf) =>{\n" +
-                "                console.log(`PDF LOADED: `); console.log(pdf);\n" +
-                "                window.PDFViewerApplication.load(pdf)\n" +
-                "              })");
-    }
-
-    public void executeAsyncSafeJS(String js, Serializable... parameters){
-        executeSafeJS("async function executeAsyncSafeJS(){"+js+"}; return executeAsyncSafeJS();", parameters);
+        sendMessage("change-pdf-request", url);
     }
 
     public void executeSafeJS(String js, Serializable... parameters){
-        PdfEditorFrame this_ = this;
+        PdfEditorFrameOld this_ = this;
         if(!isPdfJsLoaded) onPdfJsLoaded.add(new Runnable() {
             @Override
             public void run() {
@@ -166,10 +155,7 @@ public class PdfEditorFrame extends Html implements HasStyle {
                 onSave.remove(this);
             }
         });
-        executeAsyncSafeJS("let u8 = await window.PDFViewerApplication.pdfDocument.getData();\n" +
-                "                let binaryString = new Uint8Array(u8).reduce((data, byte) => data + String.fromCharCode(byte), '');\n" +
-                "                let b64encoded = btoa(binaryString);\n" +
-                "                this.$server.pdfEditorSaveResponse(msg));");
+        sendMessage("save-request", "");
     }
 
 }
