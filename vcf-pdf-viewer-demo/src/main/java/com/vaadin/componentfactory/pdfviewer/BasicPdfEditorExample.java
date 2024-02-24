@@ -9,11 +9,11 @@ public class BasicPdfEditorExample extends Div {
 
   public BasicPdfEditorExample() {
 
-    PdfEditor pdfEditor = new PdfEditor();
+
+    StreamResource resource = new StreamResource("example.pdf", () -> getClass().getResourceAsStream("/pdf/example.pdf"));
+    PdfEditor pdfEditor = new PdfEditor(resource);
     pdfEditor.setPadding(true);
     pdfEditor.setSizeFull();
-    StreamResource resource = new StreamResource("example.pdf", () -> getClass().getResourceAsStream("/pdf/example.pdf"));
-    pdfEditor.setSrc(resource);
     pdfEditor.addSaveListener(pdfBytes -> {
       System.out.println("PDF saved. Size in bytes: " + pdfBytes.length);
     });

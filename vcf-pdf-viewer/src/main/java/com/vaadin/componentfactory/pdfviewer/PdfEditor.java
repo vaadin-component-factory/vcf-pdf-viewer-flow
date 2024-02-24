@@ -22,6 +22,8 @@ package com.vaadin.componentfactory.pdfviewer;
 
 import com.vaadin.flow.component.*;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -33,6 +35,10 @@ import java.util.function.Consumer;
 public class PdfEditor extends VerticalLayout implements HasStyle {
     public HorizontalLayout hlTop = new HorizontalLayout();
     public Select<StreamResource> selectPdf = new Select<>();
+    /**
+     * Add a new blank page at the end.
+     */
+    public Button btnAddPage = new Button("+Page");
     public Button btnSave = new Button("Save");
     public H3 titlePdfName = new H3("...");
     public PdfEditorFrame editorFrame = new PdfEditorFrame();
@@ -50,17 +56,35 @@ public class PdfEditor extends VerticalLayout implements HasStyle {
         titlePdfName.getStyle().set("margin", "0px");
         hlTop.setWidthFull();
         hlTop.addAndExpand(selectPdf);
-        hlTop.add(btnSave);
+        hlTop.add(btnAddPage, btnSave);
         hlTop.setDefaultVerticalComponentAlignment(Alignment.CENTER);
         add(hlTop);
         editorFrame.getStyle().set("width", "100%");
         addAndExpand(editorFrame);
 
-        if(pdf != null) setSrc(pdf);
         selectPdf.addValueChangeListener(e -> {
             setSrc(e.getValue());
         });
+        selectPdf.setTextRenderer(StreamResource::getName);
         selectPdf.setPlaceholder("Change file");
+        if(pdf != null) {
+            selectPdf.setItems(pdf);
+            selectPdf.setValue(pdf);
+        }
+
+        btnAddPage.addClickListener(e -> {
+            Dialog d = new Dialog();
+            d.add("By adding a new blank page all the current edits will be saved and unmodifiable.");
+
+            Button btnConfirm = new Button("Continue.");
+            d.add(btnConfirm);
+            btnConfirm.addThemeVariants(ButtonVariant.LUMO_SMALL, ButtonVariant.LUMO_TERTIARY);
+            btnConfirm.addClickListener(e2 -> {
+                d.close();
+                editorFrame.addBlankPage();
+            });
+            d.open();
+        });
     }
 
     public void setSrc(StreamResource pdf){

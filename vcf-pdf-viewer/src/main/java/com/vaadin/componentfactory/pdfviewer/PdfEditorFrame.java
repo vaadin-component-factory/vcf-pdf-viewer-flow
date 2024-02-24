@@ -67,6 +67,7 @@ public class PdfEditorFrame extends Html implements HasStyle {
                     "    }\n" +
                     "    const module = await import(\"https://mozilla.github.io/pdf.js/build/pdf.mjs\");\n" +
                     "    const module2 = await import(\"https://mozilla.github.io/pdf.js/web/viewer.mjs\");\n" +
+                    "    const module3 = await import(\"https://unpkg.com/pdf-lib/dist/pdf-lib.min.js\");\n" +
                     "    const promiseA = new Promise((resolve, reject) => {\n" +
                     "      $0.onload = function() { resolve(0); };\n" +
                     "    });" +
@@ -120,7 +121,7 @@ public class PdfEditorFrame extends Html implements HasStyle {
     }
 
     public void executeAsyncSafeJS(String js, Serializable... parameters){
-        executeSafeJS("async function executeAsyncSafeJS(){"+js+"}; return executeAsyncSafeJS();", parameters);
+        executeSafeJS("let async_this = this; async function executeAsyncSafeJS(){\n"+js+"\n}\n return executeAsyncSafeJS();\n", parameters);
     }
 
     public void executeSafeJS(String js, Serializable... parameters){
@@ -166,10 +167,71 @@ public class PdfEditorFrame extends Html implements HasStyle {
                 onSave.remove(this);
             }
         });
-        executeAsyncSafeJS("let u8 = await window.PDFViewerApplication.pdfDocument.getData();\n" +
+        executeAsyncSafeJS("" +
+                js_save()+
+                "let u8 = await save();\n" +
                 "                let binaryString = new Uint8Array(u8).reduce((data, byte) => data + String.fromCharCode(byte), '');\n" +
                 "                let b64encoded = btoa(binaryString);\n" +
-                "                this.$server.pdfEditorSaveResponse(msg));");
+                "                async_this.$server.pdfEditorSaveResponse(msg);\n", this);
+    }
+
+    private String js_save(){
+        return "  async function save(options = {}) {\n" +
+                "    if (PDFViewerApplication._saveInProgress) {\n" +
+                "      return;\n" +
+                "    }\n" +
+                "    PDFViewerApplication._saveInProgress = true;\n" +
+                "    await PDFViewerApplication.pdfScriptingManager.dispatchWillSave();\n" +
+                "\n" +
+                "    const url = PDFViewerApplication._downloadUrl,\n" +
+                "      filename = PDFViewerApplication._docFilename;\n" +
+                "    try {\n" +
+                "      PDFViewerApplication._ensureDownloadComplete();\n" +
+                "\n" +
+                "      return await PDFViewerApplication.pdfDocument.saveDocument();\n" +
+                "    } catch (reason) {\n" +
+                "      // When the PDF document isn't ready, or the PDF file is still\n" +
+                "      // downloading, simply fallback to a \"regular\" download.\n" +
+                "      console.error(`Error when saving the document: ${reason.message}`);\n" +
+                "    } finally {\n" +
+                "      await PDFViewerApplication.pdfScriptingManager.dispatchDidSave();\n" +
+                "      PDFViewerApplication._saveInProgress = false;\n" +
+                "    }\n" +
+                "\n" +
+                "    if (PDFViewerApplication._hasAnnotationEditors) {\n" +
+                "      PDFViewerApplication.externalServices.reportTelemetry({\n" +
+                "        type: \"editing\",\n" +
+                "        data: { type: \"save\" },\n" +
+                "      });\n" +
+                "    }\n" +
+                "  }\n";
+    }
+
+    public void addBlankPage(){
+        // Not supported by pdf.js natively: https://github.com/mozilla/pdf.js/issues/17500
+        // Thus this workaround with the help of pdf-lib is required.
+        executeAsyncSafeJS("const { PDFDocument } = PDFLib;\n" +
+                js_save()+
+                "let u8 = await save();\n" +
+                " const pdfDoc = await PDFDocument.load(u8, { \n" +
+                "    updateMetadata: false \n" +
+                "  })\n" +
+                "      const lastPage = pdfDoc.getPage(pdfDoc.getPageCount() - 1) || pdfDoc.addPage();\n" +
+                "      const newPage = pdfDoc.addPage();\n" +
+                "      newPage.setSize(lastPage.getWidth(), lastPage.getHeight());" +
+                "// Perform operations on the page, if needed\n" +
+                "\n" +
+                "const pdfBytes = await pdfDoc.save();\n" +
+                "// Load back into viewer\n" +
+                "let binaryString = new Uint8Array(pdfBytes).reduce((data, byte) => data + String.fromCharCode(byte), '');\n" +
+                "let b64encoded = btoa(binaryString);\n" +
+                "const pdfDataUri = 'data:application/pdf;base64,' + b64encoded;\n" +
+                "window.pdfjsLib.getDocument(pdfDataUri).promise.then(pdfDoc => {\n" +
+                "  // Now you can work with the PDF document\n" +
+                "  const numPages = pdfDoc.numPages;\n" +
+                "  console.log(`New number of pages: ${numPages}`);\n" +
+                "  window.PDFViewerApplication.load(pdfDoc)" +
+                "});");
     }
 
 }
