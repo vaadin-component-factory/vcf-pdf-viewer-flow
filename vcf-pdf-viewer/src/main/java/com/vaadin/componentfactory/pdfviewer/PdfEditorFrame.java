@@ -172,7 +172,7 @@ public class PdfEditorFrame extends Html implements HasStyle {
                 "let u8 = await save();\n" +
                 "                let binaryString = new Uint8Array(u8).reduce((data, byte) => data + String.fromCharCode(byte), '');\n" +
                 "                let b64encoded = btoa(binaryString);\n" +
-                "                async_this.$server.pdfEditorSaveResponse(msg);\n", this);
+                "                async_this.$server.pdfEditorSaveResponse(b64encoded);\n", this);
     }
 
     private String js_save(){

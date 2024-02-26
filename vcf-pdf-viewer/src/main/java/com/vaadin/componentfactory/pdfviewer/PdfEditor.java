@@ -30,6 +30,8 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.server.StreamResource;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Consumer;
 
 public class PdfEditor extends VerticalLayout implements HasStyle {
@@ -63,7 +65,7 @@ public class PdfEditor extends VerticalLayout implements HasStyle {
         addAndExpand(editorFrame);
 
         selectPdf.addValueChangeListener(e -> {
-            setSrc(e.getValue());
+            editorFrame.setPdfSrc(e.getValue());
         });
         selectPdf.setTextRenderer(StreamResource::getName);
         selectPdf.setPlaceholder("Change file");
@@ -88,7 +90,15 @@ public class PdfEditor extends VerticalLayout implements HasStyle {
     }
 
     public void setSrc(StreamResource pdf){
-        editorFrame.setPdfSrc(pdf);
+        List<StreamResource> items = new ArrayList<>();
+        try{
+            selectPdf.getListDataView().getItems().forEach(items::add);
+        } catch (Exception e) {}
+        if(!items.contains(pdf)){
+            items.add(pdf);
+            selectPdf.setItems(items);
+        }
+        selectPdf.setValue(pdf);
     }
 
     public String getSrc(){
