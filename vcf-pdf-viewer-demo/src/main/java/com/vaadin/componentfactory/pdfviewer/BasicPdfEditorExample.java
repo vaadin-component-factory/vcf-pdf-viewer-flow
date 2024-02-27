@@ -17,7 +17,11 @@ public class BasicPdfEditorExample extends Div {
     pdfEditor.addSaveListener(pdfBytes -> {
       System.out.println("PDF saved. Size in bytes: " + pdfBytes.length);
     });
-    add(pdfEditor);    
+    add(pdfEditor);
+
+    PdfEditorFrameOld old = new PdfEditorFrameOld();
+    add(old);
+    old.setSrc(resource);
   }
   
 }

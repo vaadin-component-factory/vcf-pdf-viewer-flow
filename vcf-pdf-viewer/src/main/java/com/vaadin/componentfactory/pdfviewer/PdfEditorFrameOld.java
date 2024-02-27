@@ -42,7 +42,7 @@ public class PdfEditorFrameOld extends IFrame implements HasStyle {
 
     static {
         try {
-            editorHtml = Utils.toUTF8String(Utils.getResource("/META-INF/resources/frontend/pdfjs/viewer-iframe.html"));
+            editorHtml = Utils.toUTF8String(Utils.getResource("/META-INF/resources/frontend/pdfjs/viewer-iframe-old.html"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

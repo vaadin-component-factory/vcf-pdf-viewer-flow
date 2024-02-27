@@ -28,6 +28,7 @@ import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.select.Select;
+import com.vaadin.flow.data.provider.Query;
 import com.vaadin.flow.server.StreamResource;
 
 import java.util.ArrayList;
@@ -92,7 +93,8 @@ public class PdfEditor extends VerticalLayout implements HasStyle {
     public void setSrc(StreamResource pdf){
         List<StreamResource> items = new ArrayList<>();
         try{
-            selectPdf.getListDataView().getItems().forEach(items::add);
+            // Compatible with older vaadin versions
+            selectPdf.getDataProvider().fetch(new Query<>()).forEach(items::add);
         } catch (Exception e) {}
         if(!items.contains(pdf)){
             items.add(pdf);
