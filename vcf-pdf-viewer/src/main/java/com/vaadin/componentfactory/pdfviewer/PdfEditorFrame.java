@@ -162,7 +162,7 @@ public class PdfEditorFrame extends Html implements HasStyle {
         onSave.add(new Consumer<String>() {
             @Override
             public void accept(String pdfBase64) {
-                byte[] pdf = Base64.getEncoder().encode(pdfBase64.getBytes());
+                byte[] pdf = Base64.getDecoder().decode(pdfBase64.getBytes());
                 onPDFReceived.accept(pdf);
                 onSave.remove(this);
             }
