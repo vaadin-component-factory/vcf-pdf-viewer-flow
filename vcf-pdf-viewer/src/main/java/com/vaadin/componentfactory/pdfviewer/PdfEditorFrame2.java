@@ -31,14 +31,16 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.Base64;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Consumer;
 
 //@CssImport("./pdfjs/combined-viewer-prod.css")
 //@JsModule("https://mozilla.github.io/pdf.js/build/pdf.mjs")
 //@JsModule("https://mozilla.github.io/pdf.js/web/viewer.mjs")
-// ISSUE WITH THIS APPROACH: Doesn't work because on customers website gets blocked by:
-// :chrome-error://chromewebdata/:1 Refused to display 'http://localhost:9090/' in a frame because it set 'X-Frame-Options' to 'deny'.
-public class PdfEditorFrameOld extends IFrame implements HasStyle {
+// ISSUE WITH THIS APPROACH: Uncaught DOMException: Failed to set a named property 'function' on 'Window': Blocked a frame with origin "http://localhost:8080" from accessing a cross-origin frame.
+//    at <anonymous>:1:30
+// In short we can't execute JS inside the frame bc its another URL.
+public class PdfEditorFrame2 extends IFrame implements HasStyle {
     public CopyOnWriteArrayList<Consumer<String>> onSave = new CopyOnWriteArrayList<>();
     private static String editorHtml;
 
@@ -51,39 +53,20 @@ public class PdfEditorFrameOld extends IFrame implements HasStyle {
     }
     public CopyOnWriteArrayList<Runnable> onPdfJsLoaded = new CopyOnWriteArrayList<>();
     public volatile boolean isPdfJsLoaded = false;
+    public final long id = idCounter.getAndIncrement();
+    public final String idString = "pdf-editor-"+id;
+    public static AtomicLong idCounter = new AtomicLong();
 
-    public PdfEditorFrameOld() {
-        setSrc(new StreamResource("pdf-editor.html", () -> new ByteArrayInputStream(editorHtml.getBytes())));
+    public PdfEditorFrame2() {
+        setId(idString);
+        setSrc("https://mozilla.github.io/pdf.js/web/viewer.html");
         addAttachListener(e -> {
             if(!e.isInitialAttach()) return;
-            this.getElement().executeJs("" +
-                    "let this_ = this;\n" +
-                    "async function loadScripts() {\n" +
-                    "  try {\n" +
-                    "    window.onmessage = function(e) {\n" +
-                    "      let type = e.data.type;\n" +
-                    "      let msg = e.data.msg;\n" +
-                    "      if(type == 'save-response') this_.$server.pdfEditorSaveResponse(msg);\n" +
-                    "    }\n" +
-                    "    //const module = await import(\"https://mozilla.github.io/pdf.js/build/pdf.mjs\");\n" +
-                    "    //const module2 = await import(\"https://mozilla.github.io/pdf.js/web/viewer.mjs\");\n" +
-                    "    const promiseA = new Promise((resolve, reject) => {\n" +
-                    "      $0.onload = function() { resolve(0); };\n" +
-                    "    });" +
-                    "    await promiseA;\n" +
-                    "    console.log('Pdf.js scripts loaded successfully!');\n" +
-                    "  } catch (error) {\n" +
-                    "    console.error('Error loading script!', error);\n" +
-                    "  }\n" +
-                    "}" +
-                    "\n" +
-                    "return loadScripts();\n" +
-                    "", this).then(e2 -> {
-                        isPdfJsLoaded = true;
-                for (Runnable runnable : onPdfJsLoaded) {
-                    runnable.run();
-                }
-            });
+            isPdfJsLoaded = true;
+            for (Runnable runnable : onPdfJsLoaded) {
+                runnable.run();
+            }
+            executeSafeJSInside("console.log(`hello!`)");
         });
     }
 
@@ -115,7 +98,7 @@ public class PdfEditorFrameOld extends IFrame implements HasStyle {
     }
 
     public void executeSafeJS(String js, Serializable... parameters){
-        PdfEditorFrameOld this_ = this;
+        PdfEditorFrame2 this_ = this;
         if(!isPdfJsLoaded) onPdfJsLoaded.add(new Runnable() {
             @Override
             public void run() {
@@ -124,6 +107,11 @@ public class PdfEditorFrameOld extends IFrame implements HasStyle {
             }
         });
         else this.getElement().executeJs(js, parameters); // Run now
+    }
+
+    public void executeSafeJSInside(String js, Serializable... parameters){
+        executeSafeJS("function f() {\n "+js+" \n}\n document.getElementById(`"+idString+"`).contentWindow.eval(f.toString());\n",
+                parameters);
     }
 
     public void setSrc(AbstractStreamResource src) {

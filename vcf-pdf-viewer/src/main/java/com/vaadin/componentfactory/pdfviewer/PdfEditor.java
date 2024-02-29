@@ -98,7 +98,8 @@ public class PdfEditor extends VerticalLayout implements HasStyle {
         } catch (Exception e) {}
         if(!items.contains(pdf)){
             items.add(pdf);
-            selectPdf.setItems(items);
+            // setItems(Collection<T>) does not exist in older vaadin versions?
+            selectPdf.setItems(items.toArray(new StreamResource[0]));
         }
         selectPdf.setValue(pdf);
     }

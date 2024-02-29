@@ -31,9 +31,9 @@ import java.util.Iterator;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-import static sun.font.FontUtilities.isWindows;
-
 public class Utils {
+
+    public static boolean isWindows = System.getProperty("os.name").startsWith("Windows");
 
     /**
      * If the provided resource cannot be found it also checks these directories: <br>
