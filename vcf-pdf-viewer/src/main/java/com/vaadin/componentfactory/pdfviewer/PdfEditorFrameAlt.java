@@ -22,15 +22,19 @@ package com.vaadin.componentfactory.pdfviewer;
 
 import com.vaadin.flow.component.ClientCallable;
 import com.vaadin.flow.component.HasStyle;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.html.IFrame;
 import com.vaadin.flow.server.AbstractStreamResource;
 import com.vaadin.flow.server.StreamResource;
+import com.vaadin.flow.shared.communication.PushMode;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Base64;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.TimeoutException;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
 
 //@CssImport("./pdfjs/combined-viewer-prod.css")
@@ -38,7 +42,7 @@ import java.util.function.Consumer;
 //@JsModule("https://mozilla.github.io/pdf.js/web/viewer.mjs")
 // ISSUE WITH THIS APPROACH: Doesn't work because on customers website gets blocked by:
 // :chrome-error://chromewebdata/:1 Refused to display 'http://localhost:9090/' in a frame because it set 'X-Frame-Options' to 'deny'.
-public class PdfEditorFrameOld extends IFrame implements HasStyle {
+public class PdfEditorFrameAlt extends IFrame implements HasStyle {
     public CopyOnWriteArrayList<Consumer<String>> onSave = new CopyOnWriteArrayList<>();
     private static String editorHtml;
 
@@ -52,32 +56,22 @@ public class PdfEditorFrameOld extends IFrame implements HasStyle {
     public CopyOnWriteArrayList<Runnable> onPdfJsLoaded = new CopyOnWriteArrayList<>();
     public volatile boolean isPdfJsLoaded = false;
 
-    public PdfEditorFrameOld() {
+    public PdfEditorFrameAlt() {
         setSrc(new StreamResource("pdf-editor.html", () -> new ByteArrayInputStream(editorHtml.getBytes())));
+        getElement().setAttribute("frameBorder", "0");
         addAttachListener(e -> {
             if(!e.isInitialAttach()) return;
             this.getElement().executeJs("" +
-                    "let this_ = this;\n" +
-                    "async function loadScripts() {\n" +
-                    "  try {\n" +
-                    "    window.onmessage = function(e) {\n" +
-                    "      let type = e.data.type;\n" +
-                    "      let msg = e.data.msg;\n" +
-                    "      if(type == 'save-response') this_.$server.pdfEditorSaveResponse(msg);\n" +
-                    "    }\n" +
-                    "    //const module = await import(\"https://mozilla.github.io/pdf.js/build/pdf.mjs\");\n" +
-                    "    //const module2 = await import(\"https://mozilla.github.io/pdf.js/web/viewer.mjs\");\n" +
-                    "    const promiseA = new Promise((resolve, reject) => {\n" +
-                    "      $0.onload = function() { resolve(0); };\n" +
-                    "    });" +
-                    "    await promiseA;\n" +
-                    "    console.log('Pdf.js scripts loaded successfully!');\n" +
-                    "  } catch (error) {\n" +
-                    "    console.error('Error loading script!', error);\n" +
-                    "  }\n" +
-                    "}" +
-                    "\n" +
-                    "return loadScripts();\n" +
+                    "let this_ = this\n" +
+                    "window.document.addEventListener('pdf-editor-save-response', handleSaveResponse, false)\n" +
+                    "function handleSaveResponse(e) {\n" +
+                    "  this_.$server.pdfEditorSaveResponse(e.detail);\n" +
+                    "}\n" +
+                    "return new Promise(function (resolve) {\n" +
+                    "    window.document.addEventListener('pdf-editor-finished', function handleFinished() {\n" +
+                    "        resolve();\n" +
+                    "    }, false);\n" +
+                    "});\n" +
                     "", this).then(e2 -> {
                         isPdfJsLoaded = true;
                 for (Runnable runnable : onPdfJsLoaded) {
@@ -115,7 +109,7 @@ public class PdfEditorFrameOld extends IFrame implements HasStyle {
     }
 
     public void executeSafeJS(String js, Serializable... parameters){
-        PdfEditorFrameOld this_ = this;
+        PdfEditorFrameAlt this_ = this;
         if(!isPdfJsLoaded) onPdfJsLoaded.add(new Runnable() {
             @Override
             public void run() {
@@ -134,7 +128,6 @@ public class PdfEditorFrameOld extends IFrame implements HasStyle {
     public String getSrcUrl() {
         return getElement().getAttribute("src");
     }
-
 
 
     public AbstractStreamResource getSrcStreamResource(){
@@ -158,6 +151,10 @@ public class PdfEditorFrameOld extends IFrame implements HasStyle {
             }
         });
         sendMessage("save-request", "");
+    }
+
+    public void addBlankPage() {
+        sendMessage("add-blank-page", "");
     }
 
 }

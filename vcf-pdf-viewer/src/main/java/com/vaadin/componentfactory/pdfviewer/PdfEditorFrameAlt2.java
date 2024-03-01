@@ -26,7 +26,6 @@ import com.vaadin.flow.component.html.IFrame;
 import com.vaadin.flow.server.AbstractStreamResource;
 import com.vaadin.flow.server.StreamResource;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Base64;
@@ -40,24 +39,15 @@ import java.util.function.Consumer;
 // ISSUE WITH THIS APPROACH: Uncaught DOMException: Failed to set a named property 'function' on 'Window': Blocked a frame with origin "http://localhost:8080" from accessing a cross-origin frame.
 //    at <anonymous>:1:30
 // In short we can't execute JS inside the frame bc its another URL.
-public class PdfEditorFrame2 extends IFrame implements HasStyle {
+public class PdfEditorFrameAlt2 extends IFrame implements HasStyle {
     public CopyOnWriteArrayList<Consumer<String>> onSave = new CopyOnWriteArrayList<>();
-    private static String editorHtml;
-
-    static {
-        try {
-            editorHtml = Utils.toUTF8String(Utils.getResource("/META-INF/resources/frontend/pdfjs/viewer-iframe-old.html"));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
     public CopyOnWriteArrayList<Runnable> onPdfJsLoaded = new CopyOnWriteArrayList<>();
     public volatile boolean isPdfJsLoaded = false;
     public final long id = idCounter.getAndIncrement();
     public final String idString = "pdf-editor-"+id;
     public static AtomicLong idCounter = new AtomicLong();
 
-    public PdfEditorFrame2() {
+    public PdfEditorFrameAlt2() {
         setId(idString);
         setSrc("https://mozilla.github.io/pdf.js/web/viewer.html");
         addAttachListener(e -> {
@@ -98,7 +88,7 @@ public class PdfEditorFrame2 extends IFrame implements HasStyle {
     }
 
     public void executeSafeJS(String js, Serializable... parameters){
-        PdfEditorFrame2 this_ = this;
+        PdfEditorFrameAlt2 this_ = this;
         if(!isPdfJsLoaded) onPdfJsLoaded.add(new Runnable() {
             @Override
             public void run() {
@@ -148,4 +138,7 @@ public class PdfEditorFrame2 extends IFrame implements HasStyle {
         sendMessage("save-request", "");
     }
 
+    public void addBlankPage() {
+        sendMessage("add-blank-page", "");
+    }
 }

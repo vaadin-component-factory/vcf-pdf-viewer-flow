@@ -1,7 +1,6 @@
 package com.vaadin.componentfactory.pdfviewer;
 
 import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.IFrame;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.StreamResource;
 
@@ -21,15 +20,18 @@ public class BasicPdfEditorExample extends Div {
     });
     add(pdfEditor);
 
-    // Test
-    PdfEditorFrameOld old = new PdfEditorFrameOld();
-    //add(old);
-    old.setWidthFull();
-    old.setHeight("100vh");
-    old.setPdfSrc(resource);
+    // Alternative editor using iframe
+    PdfEditorAlt pdfEditorAlt = new PdfEditorAlt(resource);
+    add(pdfEditorAlt);
+    pdfEditorAlt.setPadding(true);
+    pdfEditorAlt.setWidthFull();
+    pdfEditorAlt.setHeight("100vh");
+    pdfEditorAlt.addSaveListener(pdfBytes -> {
+      System.out.println("(ALTERNATIVE) PDF saved. Size in bytes: " + pdfBytes.length);
+    });
 
     // Test
-    PdfEditorFrame2 iframe = new PdfEditorFrame2();
+    PdfEditorFrameAlt2 iframe = new PdfEditorFrameAlt2();
     //add(iframe);
     iframe.setWidthFull();
     iframe.setHeight("100vh");
