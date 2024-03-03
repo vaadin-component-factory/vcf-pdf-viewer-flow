@@ -41,7 +41,6 @@ import java.util.function.Consumer;
  */
 public class PdfEditorAlt extends VerticalLayout implements HasStyle {
     public HorizontalLayout hlTop = new HorizontalLayout();
-    public Select<StreamResource> selectPdf = new Select<>();
     /**
      * Add a new blank page at the end.
      */
@@ -62,21 +61,14 @@ public class PdfEditorAlt extends VerticalLayout implements HasStyle {
 
         titlePdfName.getStyle().set("margin", "0px");
         hlTop.setWidthFull();
-        hlTop.addAndExpand(selectPdf);
         hlTop.add(btnAddPage, btnSave);
         hlTop.setDefaultVerticalComponentAlignment(Alignment.CENTER);
         add(hlTop);
         editorFrame.getStyle().set("width", "100%");
         addAndExpand(editorFrame);
 
-        selectPdf.addValueChangeListener(e -> {
-            editorFrame.setPdfSrc(e.getValue());
-        });
-        selectPdf.setTextRenderer(StreamResource::getName);
-        selectPdf.setPlaceholder("Change file");
         if(pdf != null) {
-            selectPdf.setItems(pdf);
-            selectPdf.setValue(pdf);
+            editorFrame.setPdfSrc(pdf);
         }
 
         btnAddPage.addClickListener(e -> {
@@ -95,17 +87,7 @@ public class PdfEditorAlt extends VerticalLayout implements HasStyle {
     }
 
     public void setSrc(StreamResource pdf){
-        List<StreamResource> items = new ArrayList<>();
-        try{
-            // Compatible with older vaadin versions
-            selectPdf.getDataProvider().fetch(new Query<>()).forEach(items::add);
-        } catch (Exception e) {}
-        if(!items.contains(pdf)){
-            items.add(pdf);
-            // setItems(Collection<T>) does not exist in older vaadin versions?
-            selectPdf.setItems(items.toArray(new StreamResource[0]));
-        }
-        selectPdf.setValue(pdf);
+        editorFrame.setPdfSrc(pdf);
     }
 
     public String getSrc(){
