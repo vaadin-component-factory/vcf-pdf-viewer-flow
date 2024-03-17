@@ -42,13 +42,22 @@ import java.util.function.Consumer;
 //@JsModule("https://mozilla.github.io/pdf.js/web/viewer.mjs")
 // ISSUE WITH THIS APPROACH: Doesn't work because on customers website gets blocked by:
 // :chrome-error://chromewebdata/:1 Refused to display 'http://localhost:9090/' in a frame because it set 'X-Frame-Options' to 'deny'.
+// ---> Upgrading to latest Vaadin seems to fix this issue.
 public class PdfEditorFrameAlt extends IFrame implements HasStyle {
     public CopyOnWriteArrayList<Consumer<String>> onSave = new CopyOnWriteArrayList<>();
     private static String editorHtml;
 
     static {
         try {
-            editorHtml = Utils.toUTF8String(Utils.getResource("/META-INF/resources/frontend/pdfjs/viewer-iframe-old.html"));
+            editorHtml = Utils.toUTF8String(Utils.getResource("/META-INF/resources/frontend/pdfjs/viewer-orig.html"));
+            editorHtml = editorHtml.replace("/* INSERT viewer-orig.css STYLE */",
+                    Utils.toUTF8String(Utils.getResource("/META-INF/resources/frontend/pdfjs/viewer-orig.css")));
+            editorHtml = editorHtml.replace("/* INSERT pdf.mjs SCRIPT */",
+                    Utils.toUTF8String(Utils.getResource("/META-INF/resources/frontend/pdfjs/pdf.mjs")));
+            editorHtml = editorHtml.replace("/* INSERT viewer.mjs SCRIPT */",
+                    Utils.toUTF8String(Utils.getResource("/META-INF/resources/frontend/pdfjs/viewer.mjs")));
+            editorHtml = editorHtml.replace("/* INSERT viewer-iframe-connector.js SCRIPT */",
+                    Utils.toUTF8String(Utils.getResource("/META-INF/resources/frontend/pdfjs/viewer-iframe-connector.js")));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

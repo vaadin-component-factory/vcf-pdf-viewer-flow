@@ -10,6 +10,7 @@ public class BasicPdfEditorExample extends Div {
   public BasicPdfEditorExample() {
     getStyle().set("overflow", "auto");
 
+
     StreamResource resource = new StreamResource("example.pdf", () -> getClass().getResourceAsStream("/pdf/example.pdf"));
     PdfEditor pdfEditor = new PdfEditor(resource);
     pdfEditor.setPadding(true);

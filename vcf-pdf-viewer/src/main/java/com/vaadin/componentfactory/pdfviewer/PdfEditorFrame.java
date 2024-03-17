@@ -23,6 +23,7 @@ package com.vaadin.componentfactory.pdfviewer;
 import com.vaadin.flow.component.ClientCallable;
 import com.vaadin.flow.component.HasStyle;
 import com.vaadin.flow.component.Html;
+import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.IFrame;
 import com.vaadin.flow.server.AbstractStreamResource;
 import com.vaadin.flow.server.StreamResource;
@@ -36,13 +37,20 @@ import java.util.function.Consumer;
 //@CssImport("./pdfjs/combined-viewer-prod.css")
 //@JsModule("https://mozilla.github.io/pdf.js/build/pdf.mjs")
 //@JsModule("https://mozilla.github.io/pdf.js/web/viewer.mjs")
+//@CssImport("./pdfjs/viewer-mod.css")
 public class PdfEditorFrame extends Html implements HasStyle {
     public CopyOnWriteArrayList<Consumer<String>> onSave = new CopyOnWriteArrayList<>();
     private static String editorHtml;
 
     static {
         try {
-            editorHtml = Utils.toUTF8String(Utils.getResource("/META-INF/resources/frontend/pdfjs/viewer-iframe.html"));
+            editorHtml = Utils.toUTF8String(Utils.getResource("/META-INF/resources/frontend/pdfjs/viewer-mod.html"));
+            editorHtml = editorHtml.replace("/* INSERT viewer-mod.css STYLE */",
+                    Utils.toUTF8String(Utils.getResource("/META-INF/resources/frontend/pdfjs/viewer-mod.css")));
+            editorHtml = editorHtml.replace("/* INSERT pdf.mjs SCRIPT */",
+                    Utils.toUTF8String(Utils.getResource("/META-INF/resources/frontend/pdfjs/pdf.mjs")));
+            editorHtml = editorHtml.replace("/* INSERT viewer.mjs SCRIPT */",
+                    Utils.toUTF8String(Utils.getResource("/META-INF/resources/frontend/pdfjs/viewer.mjs")));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

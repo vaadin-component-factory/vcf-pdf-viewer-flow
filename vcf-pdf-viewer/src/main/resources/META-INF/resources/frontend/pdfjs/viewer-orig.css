@@ -474,13 +474,13 @@
     z-index:-1;
   }
 
-.pdf-editor-html{
+:root{
   --xfa-unfocused-field-background:url("data:image/svg+xml;charset=UTF-8,<svg width='1px' height='1px' xmlns='http://www.w3.org/2000/svg'><rect width='100%' height='100%' style='fill:rgba(0, 54, 255, 0.13);'/></svg>");
   --xfa-focus-outline:auto;
 }
 
 @media screen and (forced-colors: active){
-  .pdf-editor-html{
+  :root{
     --xfa-focus-outline:2px solid CanvasText;
   }
   .xfaLayer *:required{
@@ -870,7 +870,241 @@
             stroke-width:calc(2 * var(--outline-width));
           }
 
-.pdf-editor-html{
+.toggle-button{
+  --button-background-color:#f0f0f4;
+  --button-background-color-hover:#e0e0e6;
+  --button-background-color-active:#cfcfd8;
+  --color-accent-primary:#0060df;
+  --color-accent-primary-hover:#0250bb;
+  --color-accent-primary-active:#054096;
+  --border-interactive-color:#8f8f9d;
+  --border-radius-circle:9999px;
+  --border-width:1px;
+  --size-item-small:16px;
+  --size-item-large:32px;
+  --color-canvas:white;
+
+  --toggle-background-color:var(--button-background-color);
+  --toggle-background-color-hover:var(--button-background-color-hover);
+  --toggle-background-color-active:var(--button-background-color-active);
+  --toggle-background-color-pressed:var(--color-accent-primary);
+  --toggle-background-color-pressed-hover:var(--color-accent-primary-hover);
+  --toggle-background-color-pressed-active:var(--color-accent-primary-active);
+  --toggle-border-color:var(--border-interactive-color);
+  --toggle-border-color-hover:var(--toggle-border-color);
+  --toggle-border-color-active:var(--toggle-border-color);
+  --toggle-border-radius:var(--border-radius-circle);
+  --toggle-border-width:var(--border-width);
+  --toggle-height:var(--size-item-small);
+  --toggle-width:var(--size-item-large);
+  --toggle-dot-background-color:var(--toggle-border-color);
+  --toggle-dot-background-color-hover:var(--toggle-dot-background-color);
+  --toggle-dot-background-color-active:var(--toggle-dot-background-color);
+  --toggle-dot-background-color-on-pressed:var(--color-canvas);
+  --toggle-dot-margin:1px;
+  --toggle-dot-height:calc(
+    var(--toggle-height) - 2 * var(--toggle-dot-margin) - 2 *
+      var(--toggle-border-width)
+  );
+  --toggle-dot-width:var(--toggle-dot-height);
+  --toggle-dot-transform-x:calc(
+    var(--toggle-width) - 4 * var(--toggle-dot-margin) - var(--toggle-dot-width)
+  );
+
+  -webkit-appearance:none;
+
+     -moz-appearance:none;
+
+          appearance:none;
+  padding:0;
+  margin:0;
+  border:var(--toggle-border-width) solid var(--toggle-border-color);
+  height:var(--toggle-height);
+  width:var(--toggle-width);
+  border-radius:var(--toggle-border-radius);
+  background:var(--toggle-background-color);
+  box-sizing:border-box;
+  flex-shrink:0;
+}
+
+@media (prefers-color-scheme: dark){
+
+:where(html:not(.is-light)) .toggle-button{
+    --button-background-color:color-mix(in srgb, currentColor 7%, transparent);
+    --button-background-color-hover:color-mix(
+      in srgb,
+      currentColor 14%,
+      transparent
+    );
+    --button-background-color-active:color-mix(
+      in srgb,
+      currentColor 21%,
+      transparent
+    );
+    --color-accent-primary:#0df;
+    --color-accent-primary-hover:#80ebff;
+    --color-accent-primary-active:#aaf2ff;
+    --border-interactive-color:#bfbfc9;
+    --color-canvas:#1c1b22;
+}
+  }
+
+:where(html.is-dark) .toggle-button{
+    --button-background-color:color-mix(in srgb, currentColor 7%, transparent);
+    --button-background-color-hover:color-mix(
+      in srgb,
+      currentColor 14%,
+      transparent
+    );
+    --button-background-color-active:color-mix(
+      in srgb,
+      currentColor 21%,
+      transparent
+    );
+    --color-accent-primary:#0df;
+    --color-accent-primary-hover:#80ebff;
+    --color-accent-primary-active:#aaf2ff;
+    --border-interactive-color:#bfbfc9;
+    --color-canvas:#1c1b22;
+}
+
+@media (forced-colors: active){
+
+.toggle-button{
+    --color-accent-primary:ButtonText;
+    --color-accent-primary-hover:SelectedItem;
+    --color-accent-primary-active:SelectedItem;
+    --border-interactive-color:ButtonText;
+    --button-background-color:ButtonFace;
+    --border-interactive-color-hover:SelectedItem;
+    --border-interactive-color-active:SelectedItem;
+    --border-interactive-color-disabled:GrayText;
+    --color-canvas:ButtonText;
+}
+  }
+
+.toggle-button:focus-visible{
+    outline:var(--focus-outline);
+    outline-offset:var(--focus-outline-offset);
+  }
+
+.toggle-button:enabled:hover{
+    background:var(--toggle-background-color-hover);
+    border-color:var(--toggle-border-color);
+  }
+
+.toggle-button:enabled:active{
+    background:var(--toggle-background-color-active);
+    border-color:var(--toggle-border-color);
+  }
+
+.toggle-button[aria-pressed="true"]{
+    background:var(--toggle-background-color-pressed);
+    border-color:transparent;
+  }
+
+.toggle-button[aria-pressed="true"]:enabled:hover{
+    background:var(--toggle-background-color-pressed-hover);
+    border-color:transparent;
+  }
+
+.toggle-button[aria-pressed="true"]:enabled:active{
+    background:var(--toggle-background-color-pressed-active);
+    border-color:transparent;
+  }
+
+.toggle-button::before{
+    display:block;
+    content:"";
+    background-color:var(--toggle-dot-background-color);
+    height:var(--toggle-dot-height);
+    width:var(--toggle-dot-width);
+    margin:var(--toggle-dot-margin);
+    border-radius:var(--toggle-border-radius);
+    translate:0;
+  }
+
+.toggle-button[aria-pressed="true"]::before{
+    translate:var(--toggle-dot-transform-x);
+    background-color:var(--toggle-dot-background-color-on-pressed);
+  }
+
+.toggle-button[aria-pressed="true"]:enabled:hover::before,
+  .toggle-button[aria-pressed="true"]:enabled:active::before{
+    background-color:var(--toggle-dot-background-color-on-pressed);
+  }
+
+.toggle-button[aria-pressed="true"]:-moz-locale-dir(rtl)::before,[dir="rtl"]
+  .toggle-button[aria-pressed="true"]::before{
+    translate:calc(-1 * var(--toggle-dot-transform-x));
+  }
+
+@media (prefers-reduced-motion: no-preference){
+    .toggle-button::before{
+      transition:translate 100ms;
+    }
+  }
+
+@media (prefers-contrast){
+    .toggle-button:enabled:hover{
+      border-color:var(--toggle-border-color-hover);
+    }
+
+    .toggle-button:enabled:active{
+      border-color:var(--toggle-border-color-active);
+    }
+
+    .toggle-button[aria-pressed="true"]:enabled{
+      border-color:var(--toggle-border-color);
+      position:relative;
+    }
+
+    .toggle-button[aria-pressed="true"]:enabled:hover,
+    .toggle-button[aria-pressed="true"]:enabled:hover:active{
+      border-color:var(--toggle-border-color-hover);
+    }
+
+    .toggle-button[aria-pressed="true"]:enabled:active{
+      background-color:var(--toggle-dot-background-color-active);
+      border-color:var(--toggle-dot-background-color-hover);
+    }
+
+    .toggle-button:hover::before,
+    .toggle-button:active::before{
+      background-color:var(--toggle-dot-background-color-hover);
+    }
+  }
+
+@media (forced-colors){
+
+.toggle-button{
+    --toggle-dot-background-color:var(--color-accent-primary);
+    --toggle-dot-background-color-hover:var(--color-accent-primary-hover);
+    --toggle-dot-background-color-active:var(--color-accent-primary-active);
+    --toggle-dot-background-color-on-pressed:var(--button-background-color);
+    --toggle-background-color-disabled:var(--button-background-color-disabled);
+    --toggle-border-color-hover:var(--border-interactive-color-hover);
+    --toggle-border-color-active:var(--border-interactive-color-active);
+    --toggle-border-color-disabled:var(--border-interactive-color-disabled);
+}
+
+    .toggle-button[aria-pressed="true"]:enabled::after{
+      border:1px solid var(--button-background-color);
+      content:"";
+      position:absolute;
+      height:var(--toggle-height);
+      width:var(--toggle-width);
+      display:block;
+      border-radius:var(--toggle-border-radius);
+      inset:-2px;
+    }
+
+    .toggle-button[aria-pressed="true"]:enabled:active::after{
+      border-color:var(--toggle-border-color-active);
+    }
+  }
+
+:root{
   --outline-width:2px;
   --outline-color:#0060df;
   --outline-around-width:1px;
@@ -895,6 +1129,16 @@
   --editorHighlight-editing-cursor:url(https://mozilla.github.io/pdf.js/web/images/cursor-editorTextHighlight.svg) 24 24, text;
   --editorFreeHighlight-editing-cursor:url(https://mozilla.github.io/pdf.js/web/images/cursor-editorFreeHighlight.svg) 1 18, pointer;
 }
+.visuallyHidden{
+  position:absolute;
+  border:0;
+  margin:0;
+  padding:0;
+  width:0;
+  height:0;
+  overflow:hidden;
+  white-space:nowrap;
+}
 
 .textLayer.highlighting{
   cursor:var(--editorFreeHighlight-editing-cursor);
@@ -909,13 +1153,13 @@
   }
 
 @media (-webkit-min-device-pixel-ratio: 1.1), (min-resolution: 1.1dppx){
-  .pdf-editor-html{
+  :root{
     --editorFreeText-editing-cursor:url(https://mozilla.github.io/pdf.js/web/images/cursor-editorFreeText.svg) 0 16, text;
   }
 }
 
 @media screen and (forced-colors: active){
-  .pdf-editor-html{
+  :root{
     --outline-color:CanvasText;
     --outline-around-color:ButtonFace;
     --resizer-bg-color:ButtonText;
@@ -1011,10 +1255,11 @@
       border:var(--focus-outline-around);
     }
 
-.annotationEditorLayer
-  :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor) .editToolbar{
+:is(.annotationEditorLayer
+  :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor),.textLayer) .editToolbar{
     --editor-toolbar-delete-image:url(https://mozilla.github.io/pdf.js/web/images/editor-toolbar-delete.svg);
     --editor-toolbar-bg-color:#f0f0f4;
+    --editor-toolbar-highlight-image:url(https://mozilla.github.io/pdf.js/web/images/toolbarButton-editorHighlight.svg);
     --editor-toolbar-fg-color:#2e2e56;
     --editor-toolbar-border-color:#8f8f9d;
     --editor-toolbar-hover-border-color:var(--editor-toolbar-border-color);
@@ -1051,8 +1296,8 @@
 
 @media (prefers-color-scheme: dark){
 
-:where(.pdf-editor-html:not(.is-light)) .annotationEditorLayer
-  :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor) .editToolbar{
+:where(html:not(.is-light)) :is(.annotationEditorLayer
+  :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor),.textLayer) .editToolbar{
       --editor-toolbar-bg-color:#2b2a33;
       --editor-toolbar-fg-color:#fbfbfe;
       --editor-toolbar-hover-bg-color:#52525e;
@@ -1060,8 +1305,8 @@
   }
     }
 
-:where(.pdf-editor-html.is-dark) .annotationEditorLayer
-  :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor) .editToolbar{
+:where(html.is-dark) :is(.annotationEditorLayer
+  :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor),.textLayer) .editToolbar{
       --editor-toolbar-bg-color:#2b2a33;
       --editor-toolbar-fg-color:#fbfbfe;
       --editor-toolbar-hover-bg-color:#52525e;
@@ -1070,8 +1315,8 @@
 
 @media screen and (forced-colors: active){
 
-.annotationEditorLayer
-  :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor) .editToolbar{
+:is(.annotationEditorLayer
+  :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor),.textLayer) .editToolbar{
       --editor-toolbar-bg-color:ButtonFace;
       --editor-toolbar-fg-color:ButtonText;
       --editor-toolbar-border-color:ButtonText;
@@ -1084,28 +1329,28 @@
   }
     }
 
-.annotationEditorLayer
-  :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor) .editToolbar.hidden{
+:is(.annotationEditorLayer
+  :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor),.textLayer) .editToolbar.hidden{
       display:none;
     }
 
-.annotationEditorLayer
-  :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor) .editToolbar:has(:focus-visible){
+:is(.annotationEditorLayer
+  :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor),.textLayer) .editToolbar:has(:focus-visible){
       border-color:transparent;
     }
 
-[dir="ltr"] .annotationEditorLayer
-  :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor) .editToolbar{
+[dir="ltr"] :is(.annotationEditorLayer
+  :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor),.textLayer) .editToolbar{
       transform-origin:100% 0;
     }
 
-[dir="rtl"] .annotationEditorLayer
-  :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor) .editToolbar{
+[dir="rtl"] :is(.annotationEditorLayer
+  :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor),.textLayer) .editToolbar{
       transform-origin:0 0;
     }
 
-.annotationEditorLayer
-  :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor) .editToolbar .buttons{
+:is(.annotationEditorLayer
+  :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor),.textLayer) .editToolbar .buttons{
       display:flex;
       justify-content:center;
       align-items:center;
@@ -1113,8 +1358,8 @@
       height:100%;
     }
 
-.annotationEditorLayer
-  :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor) .editToolbar .buttons .divider{
+:is(.annotationEditorLayer
+  :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor),.textLayer) .editToolbar .buttons .divider{
         width:1px;
         height:calc(
           2 * var(--editor-toolbar-padding) + var(--editor-toolbar-height)
@@ -1124,13 +1369,38 @@
         margin-inline:2px;
       }
 
-.annotationEditorLayer
-  :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor) .editToolbar .buttons .delete{
+:is(.annotationEditorLayer
+  :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor),.textLayer) .editToolbar .buttons .highlightButton{
         width:var(--editor-toolbar-height);
       }
 
-.annotationEditorLayer
-  :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor) .editToolbar .buttons .delete::before{
+:is(.annotationEditorLayer
+  :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor),.textLayer) .editToolbar .buttons .highlightButton::before{
+          content:"";
+          -webkit-mask-image:var(--editor-toolbar-highlight-image);
+                  mask-image:var(--editor-toolbar-highlight-image);
+          -webkit-mask-repeat:no-repeat;
+                  mask-repeat:no-repeat;
+          -webkit-mask-position:center;
+                  mask-position:center;
+          display:inline-block;
+          background-color:var(--editor-toolbar-fg-color);
+          width:100%;
+          height:100%;
+        }
+
+:is(.annotationEditorLayer
+  :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor),.textLayer) .editToolbar .buttons .highlightButton:hover::before{
+          background-color:var(--editor-toolbar-hover-fg-color);
+        }
+
+:is(.annotationEditorLayer
+  :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor),.textLayer) .editToolbar .buttons .delete{
+        width:var(--editor-toolbar-height);
+      }
+
+:is(.annotationEditorLayer
+  :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor),.textLayer) .editToolbar .buttons .delete::before{
           content:"";
           -webkit-mask-image:var(--editor-toolbar-delete-image);
                   mask-image:var(--editor-toolbar-delete-image);
@@ -1144,25 +1414,25 @@
           height:100%;
         }
 
-.annotationEditorLayer
-  :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor) .editToolbar .buttons .delete:hover::before{
+:is(.annotationEditorLayer
+  :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor),.textLayer) .editToolbar .buttons .delete:hover::before{
           background-color:var(--editor-toolbar-hover-fg-color);
         }
 
-.annotationEditorLayer
-  :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor) .editToolbar .buttons > *{
+:is(.annotationEditorLayer
+  :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor),.textLayer) .editToolbar .buttons > *{
         height:var(--editor-toolbar-height);
       }
 
-.annotationEditorLayer
-  :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor) .editToolbar .buttons > :not(.divider){
+:is(.annotationEditorLayer
+  :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor),.textLayer) .editToolbar .buttons > :not(.divider){
         border:none;
         background-color:transparent;
         cursor:pointer;
       }
 
-.annotationEditorLayer
-  :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor) .editToolbar .buttons > :not(.divider):hover{
+:is(.annotationEditorLayer
+  :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor),.textLayer) .editToolbar .buttons > :not(.divider):hover{
           border-radius:2px;
           background-color:var(--editor-toolbar-hover-bg-color);
           color:var(--editor-toolbar-hover-fg-color);
@@ -1170,19 +1440,19 @@
           outline-offset:1px;
         }
 
-.annotationEditorLayer
-  :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor) .editToolbar .buttons > :not(.divider):hover:active{
+:is(.annotationEditorLayer
+  :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor),.textLayer) .editToolbar .buttons > :not(.divider):hover:active{
             outline:none;
           }
 
-.annotationEditorLayer
-  :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor) .editToolbar .buttons > :not(.divider):focus-visible{
+:is(.annotationEditorLayer
+  :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor),.textLayer) .editToolbar .buttons > :not(.divider):focus-visible{
           border-radius:2px;
           outline:2px solid var(--editor-toolbar-focus-outline-color);
         }
 
-.annotationEditorLayer
-  :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor) .editToolbar .buttons .altText{
+:is(.annotationEditorLayer
+  :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor),.textLayer) .editToolbar .buttons .altText{
         --alt-text-add-image:url(https://mozilla.github.io/pdf.js/web/images/altText_add.svg);
         --alt-text-done-image:url(https://mozilla.github.io/pdf.js/web/images/altText_done.svg);
 
@@ -1199,13 +1469,13 @@
         color:var(--editor-toolbar-fg-color);
       }
 
-.annotationEditorLayer
-  :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor) .editToolbar .buttons .altText:disabled{
+:is(.annotationEditorLayer
+  :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor),.textLayer) .editToolbar .buttons .altText:disabled{
           pointer-events:none;
         }
 
-.annotationEditorLayer
-  :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor) .editToolbar .buttons .altText::before{
+:is(.annotationEditorLayer
+  :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor),.textLayer) .editToolbar .buttons .altText::before{
           content:"";
           -webkit-mask-image:var(--alt-text-add-image);
                   mask-image:var(--alt-text-add-image);
@@ -1220,24 +1490,24 @@
           margin-inline-end:4px;
         }
 
-.annotationEditorLayer
-  :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor) .editToolbar .buttons .altText:hover::before{
+:is(.annotationEditorLayer
+  :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor),.textLayer) .editToolbar .buttons .altText:hover::before{
           background-color:var(--editor-toolbar-hover-fg-color);
         }
 
-.annotationEditorLayer
-  :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor) .editToolbar .buttons .altText.done::before{
+:is(.annotationEditorLayer
+  :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor),.textLayer) .editToolbar .buttons .altText.done::before{
           -webkit-mask-image:var(--alt-text-done-image);
                   mask-image:var(--alt-text-done-image);
         }
 
-.annotationEditorLayer
-  :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor) .editToolbar .buttons .altText .tooltip{
+:is(.annotationEditorLayer
+  :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor),.textLayer) .editToolbar .buttons .altText .tooltip{
           display:none;
         }
 
-.annotationEditorLayer
-  :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor) .editToolbar .buttons .altText .tooltip.show{
+:is(.annotationEditorLayer
+  :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor),.textLayer) .editToolbar .buttons .altText .tooltip.show{
             --alt-text-tooltip-bg:#f0f0f4;
             --alt-text-tooltip-fg:#15141a;
             --alt-text-tooltip-border:#8f8f9d;
@@ -1268,16 +1538,16 @@
 
 @media (prefers-color-scheme: dark){
 
-:where(.pdf-editor-html:not(.is-light)) .annotationEditorLayer
-  :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor) .editToolbar .buttons .altText .tooltip.show{
+:where(html:not(.is-light)) :is(.annotationEditorLayer
+  :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor),.textLayer) .editToolbar .buttons .altText .tooltip.show{
               --alt-text-tooltip-bg:#1c1b22;
               --alt-text-tooltip-fg:#fbfbfe;
               --alt-text-tooltip-shadow:0px 2px 6px 0px #15141a;
           }
             }
 
-:where(.pdf-editor-html.is-dark) .annotationEditorLayer
-  :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor) .editToolbar .buttons .altText .tooltip.show{
+:where(html.is-dark) :is(.annotationEditorLayer
+  :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor),.textLayer) .editToolbar .buttons .altText .tooltip.show{
               --alt-text-tooltip-bg:#1c1b22;
               --alt-text-tooltip-fg:#fbfbfe;
               --alt-text-tooltip-shadow:0px 2px 6px 0px #15141a;
@@ -1285,8 +1555,8 @@
 
 @media screen and (forced-colors: active){
 
-.annotationEditorLayer
-  :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor) .editToolbar .buttons .altText .tooltip.show{
+:is(.annotationEditorLayer
+  :is(.freeTextEditor, .inkEditor, .stampEditor, .highlightEditor),.textLayer) .editToolbar .buttons .altText .tooltip.show{
               --alt-text-tooltip-bg:Canvas;
               --alt-text-tooltip-fg:CanvasText;
               --alt-text-tooltip-border:CanvasText;
@@ -1698,7 +1968,7 @@
 
 @media (prefers-color-scheme: dark){
 
-:where(.pdf-editor-html:not(.is-light)) #altTextDialog{
+:where(html:not(.is-light)) #altTextDialog{
     --dialog-bg-color:#1c1b22;
     --dialog-border-color:#1c1b22;
     --dialog-shadow:0 2px 14px 0 #15141a;
@@ -1719,7 +1989,7 @@
 }
   }
 
-:where(.pdf-editor-html.is-dark) #altTextDialog{
+:where(html.is-dark) #altTextDialog{
     --dialog-bg-color:#1c1b22;
     --dialog-border-color:#1c1b22;
     --dialog-shadow:0 2px 14px 0 #15141a;
@@ -1955,14 +2225,14 @@
 
 @media (prefers-color-scheme: dark){
 
-:where(.pdf-editor-html:not(.is-light)) .colorPicker{
+:where(html:not(.is-light)) .colorPicker{
     --hover-outline-color:#80ebff;
     --selected-outline-color:#aaf2ff;
     --swatch-border-color:#52525e;
 }
   }
 
-:where(.pdf-editor-html.is-dark) .colorPicker{
+:where(html.is-dark) .colorPicker{
     --hover-outline-color:#80ebff;
     --selected-outline-color:#aaf2ff;
     --swatch-border-color:#52525e;
@@ -2214,12 +2484,12 @@
 
 @media (prefers-color-scheme: dark){
 
-:where(.pdf-editor-html:not(.is-light)) #highlightParamsToolbarContainer #editorHighlightThickness .thicknessPicker{
+:where(html:not(.is-light)) #highlightParamsToolbarContainer #editorHighlightThickness .thicknessPicker{
         --example-color:#80808e;
     }
       }
 
-:where(.pdf-editor-html.is-dark) #highlightParamsToolbarContainer #editorHighlightThickness .thicknessPicker{
+:where(html.is-dark) #highlightParamsToolbarContainer #editorHighlightThickness .thicknessPicker{
         --example-color:#80808e;
     }
 
@@ -2230,7 +2500,12 @@
     }
       }
 
-#highlightParamsToolbarContainer #editorHighlightThickness .thicknessPicker::before{
+:is(#highlightParamsToolbarContainer #editorHighlightThickness .thicknessPicker > .editorParamsSlider[disabled]){
+        opacity:0.4;
+      }
+
+#highlightParamsToolbarContainer #editorHighlightThickness .thicknessPicker::before,
+      #highlightParamsToolbarContainer #editorHighlightThickness .thicknessPicker::after{
         content:"";
         width:8px;
         aspect-ratio:1;
@@ -2239,21 +2514,23 @@
         background-color:var(--example-color);
       }
 
+#highlightParamsToolbarContainer #editorHighlightThickness .thicknessPicker::after{
+        width:24px;
+      }
+
 #highlightParamsToolbarContainer #editorHighlightThickness .thicknessPicker .editorParamsSlider{
         width:unset;
         height:14px;
       }
 
-#highlightParamsToolbarContainer #editorHighlightThickness .thicknessPicker::after{
-        content:"";
-        width:24px;
-        aspect-ratio:1;
-        display:block;
-        border-radius:100%;
-        background-color:var(--example-color);
-      }
+#highlightParamsToolbarContainer #editorHighlightVisibility{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    align-self:stretch;
+  }
 
-.pdf-editor-html{
+:root{
   --viewer-container-height:0;
   --pdfViewer-padding-bottom:0;
   --page-margin:1px auto -8px;
@@ -2263,7 +2540,7 @@
 }
 
 @media screen and (forced-colors: active){
-  .pdf-editor-html{
+  :root{
     --pdfViewer-padding-bottom:9px;
     --page-margin:8px auto -1px;
     --page-border:1px solid CanvasText;
@@ -2400,7 +2677,7 @@
   content:"";
   width:100%;
   height:100%;
-  background:url("https://mozilla.github.io/pdf.js/web/images/loading-icon.gif") center no-repeat;
+  background:url("images/loading-icon.gif") center no-repeat;
   display:none;
   transition-property:display;
   transition-delay:var(--loading-icon-delay);
@@ -2430,7 +2707,7 @@
   border:2px solid transparent;
 }
 
-.pdf-editor-html{
+:root{
   --dir-factor:1;
   --inline-start:left;
   --inline-end:right;
@@ -2532,14 +2809,14 @@
   --editorParams-stampAddImage-icon:url(https://mozilla.github.io/pdf.js/web/images/toolbarButton-zoomIn.svg);
 }
 
-[dir="rtl"].pdf-editor-html{
+[dir="rtl"]:root{
   --dir-factor:-1;
   --inline-start:right;
   --inline-end:left;
 }
 
 @media (prefers-color-scheme: dark){
-  .pdf-editor-html:where(:not(.is-light)){
+  :root:where(:not(.is-light)){
     --main-color:rgb(249 249 250);
     --body-bg-color:rgb(42 42 46);
     --progressBar-color:rgb(0 96 223);
@@ -2580,7 +2857,7 @@
   }
 }
 
-.pdf-editor-html:where(.is-dark){
+:root:where(.is-dark){
     --main-color:rgb(249 249 250);
     --body-bg-color:rgb(42 42 46);
     --progressBar-color:rgb(0 96 223);
@@ -2621,7 +2898,7 @@
   }
 
 @media screen and (forced-colors: active){
-  .pdf-editor-html{
+  :root{
     --button-hover-color:Highlight;
     --doorhanger-hover-bg-color:Highlight;
     --toolbar-icon-opacity:1;
@@ -2651,23 +2928,23 @@
 }
 
 @media screen and (prefers-reduced-motion: reduce){
-  .pdf-editor-html{
+  :root{
     --sidebar-transition-duration:0;
   }
 }
 
-.pdf-editor-html *{
+*{
   padding:0;
   margin:0;
 }
 
-.pdf-editor-html,
-.pdf-editor-body{
+html,
+body{
   height:100%;
   width:100%;
 }
 
-.pdf-editor-body{
+body{
   background-color:var(--body-bg-color);
   scrollbar-color:var(--scrollbar-color) var(--scrollbar-bg-color);
 }
@@ -3925,13 +4202,13 @@ dialog :link{
 }
 
 @media print{
-  .pdf-editor-body{
+  body{
     background:rgb(0 0 0 / 0) none;
   }
-  .pdf-editor-body[data-pdfjsprinting] #outerContainer{
+  body[data-pdfjsprinting] #outerContainer{
     display:none;
   }
-  .pdf-editor-body[data-pdfjsprinting] #printContainer{
+  body[data-pdfjsprinting] #printContainer{
     display:block;
   }
   #printContainer{
@@ -3994,7 +4271,7 @@ dialog :link{
 }
 
 @media all and (max-width: 750px){
-  .pdf-editor-html{
+  :root{
     --editor-toolbar-base-offset:40px;
   }
   #outerContainer .hiddenMediumView{
