@@ -38,7 +38,7 @@ import com.vaadin.flow.server.AbstractStreamResource;
 import org.apache.commons.lang3.StringUtils;
 
 @Tag("vcf-pdf-viewer")
-@NpmPackage(value = "@vaadin-component-factory/vcf-pdf-viewer", version = "2.0.1")
+@NpmPackage(value = "@vaadin-component-factory/vcf-pdf-viewer", version = "2.1.0")
 @NpmPackage(value = "print-js", version = "1.6.0")
 @JsModule("@vaadin-component-factory/vcf-pdf-viewer/vcf-pdf-viewer.js")
 @JsModule("./src/pdf-print.js")
@@ -55,6 +55,9 @@ public class PdfViewer extends Div {
   /* Indicates if print button is added to toolbar or not */
   private boolean addPrintButton = false;
   private Button printButton;
+  
+  private String printButtonTooltipText;
+  private String downloadButtonTooltipText;
   
   public PdfViewer() {}
 
@@ -266,7 +269,97 @@ public class PdfViewer extends Div {
   public void hideZoom(boolean hideZoom) {
 	  this.getElement().setProperty("hideZoom", hideZoom);
   }
-   
+  
+  /**
+   * Sets a tooltip text for the previous page button in toolbar.
+   * 
+   * @param tooltipText text to show in tooltip
+   */
+  public void setPreviousPageTooltipText(String previousPageTooltipText) {
+    this.getElement().setProperty("previousPageTooltip", previousPageTooltipText);
+  }
+  
+  /**
+   * Returns the tooltip text defined for the previous page button.
+   * 
+   * @return the previous page button tooltip text
+   */
+  public String getPreviousPageTooltipText() {
+    return this.getElement().getProperty("previousPageTooltip");
+  }
+  
+  /**
+   * Sets tooltip text for the next page button in toolbar.
+   * 
+   * @param tooltipText text to show in tooltip
+   */
+  public void setNextPageTooltipText(String nextPageTooltipText) {
+    this.getElement().setProperty("nextPageTooltip", nextPageTooltipText);
+  }
+  
+  /**
+   * Returns the tooltip text defined for the next page button.
+   * 
+   * @return the next page button tooltip text
+   */
+  public String getNextPageTooltipText() {
+    return this.getElement().getProperty("nextPageTooltip");
+  }
+  
+  /**
+   * Sets tooltip text for the sidebar toogle button in toolbar.
+   * 
+   * @param tooltipText text to show in tooltip
+   */
+  public void setSidebarToggleTooltipText(String sidebarToggleTooltipText) {
+    this.getElement().setProperty("sidebarToggleTooltip", sidebarToggleTooltipText);
+  }
+  
+  /**
+   * Returns the tooltip text defined for the sidebar toggle button.
+   * 
+   * @return the sidebar toggle button tooltip text
+   */
+  public String getSidebarToggleTooltipText() {
+    return this.getElement().getProperty("sidebarToggleTooltip");
+  } 
+  
+  /**
+   * Sets tooltip text for the print button in toolbar.
+   * 
+   * @param printButtonTooltipText the printButtonTooltipText to set
+   */ 
+  public void setPrintButtonTooltipText(String printButtonTooltipText) {
+    this.printButtonTooltipText = printButtonTooltipText;
+  }
+  
+  /**
+   * Returns the tooltip text defined for the print button.
+   * 
+   * @return the print button tooltip text
+   */
+  public String getPrintButtonTooltipText() {
+    return printButtonTooltipText;
+  }  
+
+  /**
+   * Sets tooltip text for the download button in toolbar.
+   * 
+   * @param downloadButtonTooltipText the downloadButtonTooltipText to set
+   */
+  public void setDownloadButtonTooltipText(String downloadButtonTooltipText) {
+    this.downloadButtonTooltipText = downloadButtonTooltipText;
+  }
+
+  /**
+   * Returns the tooltip text defined for the download button.
+   * 
+   * @return the download button tooltip text
+   */
+  public String getDownloadButtonTooltipText() {
+    return downloadButtonTooltipText;
+  }
+
   @Override
   protected void onAttach(AttachEvent attachEvent) {
     super.onAttach(attachEvent);
@@ -306,6 +399,7 @@ public class PdfViewer extends Div {
     downloadButton.getElement().setAttribute("aria-label", "Download file");
     downloadButton.setThemeName("download-button");
     downloadButton.setEnabled(StringUtils.isNotBlank(src));
+    downloadButton.setTooltipText(this.getDownloadButtonTooltipText());
     downloadLink.add(downloadButton);
     downloadLink.getElement().setAttribute("download", true);
     getElement().appendChild(downloadLink.getElement());
@@ -331,6 +425,7 @@ public class PdfViewer extends Div {
     printButton.setThemeName("print-button");
     getElement().appendChild(printButton.getElement());
     printButton.addClickListener(e -> this.getElement().executeJs("printPdf.printPdf($0)", this.getSrc()));
+    printButton.setTooltipText(this.getPrintButtonTooltipText());
   }
 
 }
