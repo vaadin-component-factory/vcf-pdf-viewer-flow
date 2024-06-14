@@ -273,7 +273,7 @@ public class PdfViewer extends Div {
   /**
    * Sets a tooltip text for the previous page button in toolbar.
    * 
-   * @param tooltipText text to show in tooltip
+   * @param previousPageTooltipText text to show in tooltip
    */
   public void setPreviousPageTooltipText(String previousPageTooltipText) {
     this.getElement().setProperty("previousPageTooltip", previousPageTooltipText);
@@ -291,7 +291,7 @@ public class PdfViewer extends Div {
   /**
    * Sets tooltip text for the next page button in toolbar.
    * 
-   * @param tooltipText text to show in tooltip
+   * @param nextPageTooltipText text to show in tooltip
    */
   public void setNextPageTooltipText(String nextPageTooltipText) {
     this.getElement().setProperty("nextPageTooltip", nextPageTooltipText);
@@ -309,7 +309,7 @@ public class PdfViewer extends Div {
   /**
    * Sets tooltip text for the sidebar toogle button in toolbar.
    * 
-   * @param tooltipText text to show in tooltip
+   * @param sidebarToggleTooltipText text to show in tooltip
    */
   public void setSidebarToggleTooltipText(String sidebarToggleTooltipText) {
     this.getElement().setProperty("sidebarToggleTooltip", sidebarToggleTooltipText);
