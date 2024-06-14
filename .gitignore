@@ -44,7 +44,11 @@ package.json
 webpack.config.js
 webpack.generated.js
 
-timeline/src/main/resources/rebel.xml
 .vscode
 vcf-pdf-viewer-demo/frontend/index.html
-vcf-pdf-viewer-demo/frontend/generated/index.ts
+vcf-pdf-viewer-demo/frontend/generated
+vcf-pdf-viewer-demo/src/main/dev-bundle
+vcf-pdf-viewer-demo/vite.generated.ts
+vcf-pdf-viewer-demo/vite.config.ts
+vcf-pdf-viewer-demo/tsconfig.json
+vcf-pdf-viewer-demo/types.d.ts
