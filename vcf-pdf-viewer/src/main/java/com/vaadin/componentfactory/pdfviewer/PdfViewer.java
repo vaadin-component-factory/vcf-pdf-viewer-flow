@@ -56,6 +56,14 @@ public class PdfViewer extends Div {
   private boolean addPrintButton = false;
   private Button printButton;
   
+  /* Indicates if Rotate Clockwise button is added to toolbar or not */
+  private boolean addRotateClockwiseButton = false;
+  private Button rotateClockwiseButton;
+  
+  /* Indicates if Rotate Counterclockwise button is added to toolbar or not */
+  private boolean addRotateCounterClockwiseButton = false;
+  private Button rotateCounterClockwiseButton;
+  
   public PdfViewer() {}
 
   /**
@@ -266,6 +274,46 @@ public class PdfViewer extends Div {
   public void hideZoom(boolean hideZoom) {
 	  this.getElement().setProperty("hideZoom", hideZoom);
   }
+  
+  /**
+   * Returns whether Rotate Clockwise button is added to the toolbar or not.
+   * 
+   * @return true if the button is added to toolbar
+   */
+  public boolean isAddRotateClockwiseButton() {
+    return addRotateClockwiseButton;
+  }
+
+  /**
+   * <p>Sets the flag to indicate if Rotate Clockwise button should be added to toolbar or not. 
+   * By default the flag is set to false, so, by default the button is not added to the toolbar. </p>
+   * <p>This flag should be set on pdf viewer initialization time.</p>
+   * 
+   * @param addRotateClockwiseButton true if rotate clockwise button should be added to toolbar
+   */
+  public void setAddRotateClockwiseButton(boolean addRotateClockwiseButton) {
+    this.addRotateClockwiseButton = addRotateClockwiseButton;
+  }
+  
+  /**
+   * Returns whether Rotate Counterclockwise button is added to the toolbar or not.
+   * 
+   * @return true if the button is added to toolbar
+   */
+  public boolean isAddRotateCounterClockwiseButton() {
+    return addRotateCounterClockwiseButton;
+  }
+
+  /**
+   * <p>Sets the flag to indicate if Rotate Counterclockwise button should be added to toolbar or not. 
+   * By default the flag is set to false, so, by default the button is not added to the toolbar. </p>
+   * <p>This flag should be set on pdf viewer initialization time.</p>
+   * 
+   * @param addRotateCounterClockwiseButton true if rotate counterclockwise button should be added to toolbar
+   */
+  public void setAddRotateCounterClockwiseButton(boolean addRotateCounterClockwiseButton) {
+    this.addRotateCounterClockwiseButton = addRotateCounterClockwiseButton;
+  }
    
   @Override
   protected void onAttach(AttachEvent attachEvent) {
@@ -275,6 +323,12 @@ public class PdfViewer extends Div {
     }
     if(addPrintButton){
       addPrintButton();
+    }
+    if(addRotateClockwiseButton){
+      addRotateClockwiseButton();
+    }
+    if(addRotateCounterClockwiseButton){
+      addRotateCounterClockwiseButton();
     }
   }
   
@@ -286,6 +340,12 @@ public class PdfViewer extends Div {
     }
     if(addPrintButton){
       this.getElement().removeChild(printButton.getElement());
+    }
+    if(addRotateClockwiseButton){
+      this.getElement().removeChild(rotateClockwiseButton.getElement());
+    }
+    if(addRotateCounterClockwiseButton){
+      this.getElement().removeChild(rotateCounterClockwiseButton.getElement());
     }
   }
 
@@ -333,4 +393,26 @@ public class PdfViewer extends Div {
     printButton.addClickListener(e -> this.getElement().executeJs("printPdf.printPdf($0)", this.getSrc()));
   }
 
+  /**
+   * Adds button to rotate pdf file clockwise.
+   */
+  private void addRotateClockwiseButton() {
+    rotateClockwiseButton = new Button(new Icon(VaadinIcon.ROTATE_RIGHT));
+    rotateClockwiseButton.getElement().setAttribute("aria-label", "Rotate clockwise");
+    rotateClockwiseButton.setThemeName("rotate-button");
+    getElement().appendChild(rotateClockwiseButton.getElement());
+    rotateClockwiseButton.addClickListener(e -> this.getElement().executeJs("this.rotateCw()"));    
+  }
+  
+  /**
+   * Adds button to rotate pdf file counterclockwise.
+   */
+  private void addRotateCounterClockwiseButton() {
+    rotateCounterClockwiseButton = new Button(new Icon(VaadinIcon.ROTATE_LEFT));
+    rotateCounterClockwiseButton.getElement().setAttribute("aria-label", "Rotate counterclockwise");
+    rotateCounterClockwiseButton.setThemeName("rotate-button");
+    getElement().appendChild(rotateCounterClockwiseButton.getElement());
+    rotateCounterClockwiseButton.addClickListener(e -> this.getElement().executeJs("this.rotateCcw()"));    
+  }
+  
 }

@@ -1,4 +1,4 @@
-:host([theme~="download-button"]), :host([theme~="print-button"]) {
+:host([theme~="download-button"]), :host([theme~="print-button"]), :host([theme~="rotate-button"]) {
 	background: transparent;
 	color: var(--lumo-contrast-80pct);
 	min-width: 0;
