@@ -431,7 +431,7 @@ public class PdfViewer extends Div {
   /**
    * Sets tooltip text for the rotate counterclockwise button in toolbar.
    * 
-   * @param rotateClockwiseButtonTooltipText the rotateClockwiseButtonTooltipText to set
+   * @param rotateCounterClockwiseButtonTooltipText the rotateCounterClockwiseButtonTooltipText to set
    */
   public void setRotateCounterClockwiseButtonTooltipText(String rotateCounterClockwiseButtonTooltipText) {
     this.rotateCounterClockwiseButtonTooltipText = rotateCounterClockwiseButtonTooltipText;
