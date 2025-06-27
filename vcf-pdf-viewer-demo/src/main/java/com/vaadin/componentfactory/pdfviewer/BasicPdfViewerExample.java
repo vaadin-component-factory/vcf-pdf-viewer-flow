@@ -2,7 +2,7 @@ package com.vaadin.componentfactory.pdfviewer;
 
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.server.StreamResource;
+import com.vaadin.flow.server.streams.DownloadHandler;
 
 @Route(value = "", layout = MainLayout.class)
 public class BasicPdfViewerExample extends Div {
@@ -11,8 +11,7 @@ public class BasicPdfViewerExample extends Div {
     
     PdfViewer pdfViewer = new PdfViewer();
     pdfViewer.setSizeFull();
-    StreamResource resource = new StreamResource("example.pdf", () -> getClass().getResourceAsStream("/pdf/example.pdf"));
-    pdfViewer.setSrc(resource);
+    pdfViewer.setSrc(DownloadHandler.forClassResource(getClass(), "/pdf/example.pdf", "example.pdf"));
     add(pdfViewer);    
   }
   
