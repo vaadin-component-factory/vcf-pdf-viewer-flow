@@ -18,7 +18,7 @@
     </organization>
 
     <properties>
-        <vaadin.version>24.1.12</vaadin.version>
+        <vaadin.version>24.8.0</vaadin.version>
         <flow.version>9.0.1</flow.version>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
