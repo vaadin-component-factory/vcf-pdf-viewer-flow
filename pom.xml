@@ -3,7 +3,7 @@
 
     <groupId>org.vaadin.addons.componentfactory</groupId>
     <artifactId>vcf-pdf-viewer-root</artifactId>
-    <version>4.1.1-SNAPSHOT</version>
+    <version>5.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <modules>
         <module>vcf-pdf-viewer</module>
