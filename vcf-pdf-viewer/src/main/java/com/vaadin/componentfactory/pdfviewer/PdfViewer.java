@@ -96,7 +96,9 @@ public class PdfViewer extends Div {
    * -&gt; getPdfInputStream("mypdf.pdf");}
    *
    * @param src stream to file
+   * @deprecated use {@link #setSrc(DownloadHandler)} instead
    */
+  @Deprecated(since = "5.0.0", forRemoval = true)
   public void setSrc(AbstractStreamResource src) {
     getElement().setAttribute("src", src);
     updateDownloadSource();
