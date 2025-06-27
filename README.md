@@ -41,6 +41,14 @@ pdfViewer.setSrc(resource);
 pdfViewer.openThumbnailsView();
 add(pdfViewer);    
 ```
+
+#### Since version 5.0.0 - DownloadHandler support
+```java
+PdfViewer pdfViewer = new PdfViewer();
+pdfViewer.setSrc(DownloadHandler.forClassResource(getClass(), "/pdf/example.pdf"));
+add(pdfViewer);       
+```
+
 ## Missing features or bugs
 
 You can report any issue or missing feature on [GitHub](https://github.com/vaadin-component-factory/vcf-pdf-viewer/issues).
