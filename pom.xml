@@ -12,35 +12,12 @@
     <name>Pdf Viewer</name>
     <description>Pdf Viewer component based on pdf.js library</description>
 
-    <properties>
-        <vaadin.version>24.1.12</vaadin.version>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    </properties>
     <inceptionYear>2021</inceptionYear>
     <organization>
         <name>Vaadin Ltd</name>
         <url>https://vaadin.com/</url>
     </organization>
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>vcf-pdf-viewer</artifactId>
-                <version>${vcf-pdf-viewer.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.vaadin</groupId>
-                <artifactId>vaadin-bom</artifactId>
-                <type>pom</type>
-                <scope>import</scope>
-                <version>${vaadin.version}</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
+    
     <repositories>
         <repository>
             <id>Vaadin Directory</id>
