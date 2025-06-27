@@ -35,6 +35,7 @@ import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.server.AbstractStreamResource;
+import com.vaadin.flow.server.streams.DownloadHandler;
 import org.apache.commons.lang3.StringUtils;
 
 @Tag("vcf-pdf-viewer")
@@ -101,6 +102,18 @@ public class PdfViewer extends Div {
     updateDownloadSource();
   }
 
+  /**
+   * Sets a pdf file to render as a DownloadHandler.
+   * <p>
+   * Example: {@code DownloadHandler.forClassResource(getClass(), "mypdf.pdf")} 
+   * 
+   * @since 5.0.0
+   */
+  public void setSrc(DownloadHandler downloadHandler) {
+    getElement().setAttribute("src", downloadHandler);
+    updateDownloadSource();
+  }
+  
   /**
    * @return current zoom level
    */
