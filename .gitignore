@@ -52,6 +52,6 @@ vcf-pdf-viewer-demo/tsconfig.json
 vcf-pdf-viewer-demo/types.d.ts
 vcf-pdf-viewer-demo/pnpmfile.js
 vcf-pdf-viewer-demo/.npmrc
-vcf-pdf-viewer-demo/src/main/dev-bundle
+vcf-pdf-viewer-demo/src/main/bundles
 vcf-pdf-viewer-demo/src/main/frontend/index.html
 vcf-pdf-viewer-demo/src/main/frontend/generated
