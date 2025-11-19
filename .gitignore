@@ -32,6 +32,7 @@ error-screenshots/
 *.iml
 .idea/
 .eclipse
+.DS_Store
 
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
@@ -45,9 +46,6 @@ webpack.config.js
 webpack.generated.js
 
 .vscode
-vcf-pdf-viewer-demo/frontend/index.html
-vcf-pdf-viewer-demo/frontend/generated
-vcf-pdf-viewer-demo/src/main/dev-bundle
 vcf-pdf-viewer-demo/vite.generated.ts
 vcf-pdf-viewer-demo/vite.config.ts
 vcf-pdf-viewer-demo/tsconfig.json
@@ -55,3 +53,5 @@ vcf-pdf-viewer-demo/types.d.ts
 vcf-pdf-viewer-demo/pnpmfile.js
 vcf-pdf-viewer-demo/.npmrc
 vcf-pdf-viewer-demo/src/main/dev-bundle
+vcf-pdf-viewer-demo/src/main/frontend/index.html
+vcf-pdf-viewer-demo/src/main/frontend/generated

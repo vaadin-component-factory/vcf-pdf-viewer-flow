@@ -6,7 +6,7 @@
 
     <groupId>org.vaadin.addons.componentfactory</groupId>
     <artifactId>vcf-pdf-viewer-demo</artifactId>
-    <version>5.0.1-SNAPSHOT</version>
+    <version>6.0.0-SNAPSHOT</version>
 
     <name>Pdf Viewer Demo</name>
     <packaging>war</packaging>
@@ -18,10 +18,10 @@
     </organization>
 
     <properties>
-        <vaadin.version>24.8.0</vaadin.version>
+        <vaadin.version>25.0.0-beta5</vaadin.version>
         <flow.version>9.0.1</flow.version>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <failOnMissingWebXml>false</failOnMissingWebXml>
@@ -65,7 +65,9 @@
         <pluginRepository>
             <id>vaadin-snapshots</id>
             <url>https://oss.sonatype.org/content/repositories/vaadin-snapshots/</url>
-            <releases><enabled>false</enabled></releases>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
         </pluginRepository>
     </pluginRepositories>
     <dependencies>
@@ -105,9 +107,9 @@
         </dependency>
 
         <dependency>
-           <groupId>org.vaadin.addons.componentfactory</groupId>
-           <artifactId>vcf-pdf-viewer</artifactId>
-           <version>${project.version}</version>
+            <groupId>org.vaadin.addons.componentfactory</groupId>
+            <artifactId>vcf-pdf-viewer</artifactId>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
@@ -120,13 +122,13 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
         </dependency>
-        
+
         <dependency>
-          <groupId>javax.servlet</groupId>
-          <artifactId>javax.servlet-api</artifactId>
-          <version>3.1.0</version>
-     	</dependency>        
-        
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.1.0</version>
+        </dependency>
+
     </dependencies>
 
     <build>
