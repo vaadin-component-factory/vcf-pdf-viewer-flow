@@ -36,7 +36,7 @@ import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.server.AbstractStreamResource;
 import com.vaadin.flow.server.streams.DownloadHandler;
-import org.apache.commons.lang3.StringUtils;
+import org.jsoup.internal.StringUtil;
 
 @Tag("vcf-pdf-viewer")
 @NpmPackage(value = "@vaadin-component-factory/vcf-pdf-viewer", version = "4.0.0")
@@ -500,7 +500,7 @@ public class PdfViewer extends Div {
    */
   private void addDownloadButton() {
     String src = this.getSrc();
-    if(StringUtils.isNotBlank(src)) {
+    if(!StringUtil.isBlank(src)) {
     	downloadLink = new Anchor(src, "");
     } else {
     	downloadLink = new Anchor();
@@ -511,7 +511,7 @@ public class PdfViewer extends Div {
     downloadButton.getElement().appendChild(new Icon(VaadinIcon.DOWNLOAD).getElement());
     downloadButton.getElement().setAttribute("aria-label", "Download file");
     downloadButton.setThemeName("download-button");
-    downloadButton.setEnabled(StringUtils.isNotBlank(src));
+    downloadButton.setEnabled(!StringUtil.isBlank(src));
     downloadButton.setTooltipText(this.getDownloadButtonTooltipText());
     downloadLink.add(downloadButton);
     downloadLink.getElement().setAttribute("download", true);
@@ -525,7 +525,7 @@ public class PdfViewer extends Div {
     if (downloadLink != null) {
       String src = this.getSrc();
       downloadLink.setHref(src);
-      downloadButton.setEnabled(StringUtils.isNotBlank(src));
+      downloadButton.setEnabled(!StringUtil.isBlank(src));
     }
   }
 
