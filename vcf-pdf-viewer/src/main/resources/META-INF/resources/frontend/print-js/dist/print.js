@@ -2,7 +2,7 @@
  * #%L
  * Pdf Viewer
  * %%
- * Copyright (C) 2022 Vaadin Ltd
+ * Copyright (C) 2022 - 2026 Vaadin Ltd
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  * #L%
+ */
+
+/**
+ *  The MIT License (MIT)
+ * 
+ *  Copyright (c) 2016-present, Rodrigo Vieira (@crabbly)
  */
 
 (function webpackUniversalModuleDefinition(root, factory) {
