@@ -55,3 +55,5 @@ vcf-pdf-viewer-demo/.npmrc
 vcf-pdf-viewer-demo/src/main/bundles
 vcf-pdf-viewer-demo/src/main/frontend/index.html
 vcf-pdf-viewer-demo/src/main/frontend/generated
+vcf-pdf-viewer-demo/frontend/generated
+vcf-pdf-viewer-demo/frontend/index.html
