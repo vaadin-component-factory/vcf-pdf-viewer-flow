@@ -39,7 +39,7 @@ import com.vaadin.flow.server.streams.DownloadHandler;
 import org.jsoup.internal.StringUtil;
 
 @Tag("vcf-pdf-viewer")
-@NpmPackage(value = "@vaadin-component-factory/vcf-pdf-viewer", version = "4.0.0")
+@NpmPackage(value = "@vaadin-component-factory/vcf-pdf-viewer", version = "4.0.1")
 @NpmPackage(value = "print-js", version = "1.6.0")
 @JsModule("@vaadin-component-factory/vcf-pdf-viewer/vcf-pdf-viewer.js")
 @JsModule("./src/pdf-print.js")
