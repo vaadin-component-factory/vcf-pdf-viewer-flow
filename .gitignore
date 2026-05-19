@@ -45,8 +45,9 @@ webpack.config.js
 webpack.generated.js
 
 .vscode
-vcf-pdf-viewer-demo/frontend/index.html
-vcf-pdf-viewer-demo/frontend/generated
+vcf-pdf-viewer-demo/src/main/bundles
+vcf-pdf-viewer-demo/src/main/frontend/index.html
+vcf-pdf-viewer-demo/src/main/frontend/generated
 vcf-pdf-viewer-demo/src/main/dev-bundle
 vcf-pdf-viewer-demo/vite.generated.ts
 vcf-pdf-viewer-demo/vite.config.ts
