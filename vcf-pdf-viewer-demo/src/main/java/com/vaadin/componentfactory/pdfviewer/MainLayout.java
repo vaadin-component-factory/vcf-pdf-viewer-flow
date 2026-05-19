@@ -35,11 +35,14 @@ public class MainLayout extends AppLayout {
             new RouterLink("Source change", SourceChangeExample.class);
     final RouterLink withRotateOptionsExample =
         new RouterLink("With rotate options", WithRotateOptionsExample.class);
+    final RouterLink showingPdfWithLinksExample =
+        new RouterLink("Showing a PDF with links", ShowingPdfWithLinksExample.class);
 
     final VerticalLayout menuLayout = new VerticalLayout(basicExample, zoomExample,
         thumbnailsOpenExample, thumbnailsListenerExample, selectPageExample,
         customAutoFitZoomLabelsExample, withoutDownloadExample, customTitleExample, withPrintOptionExample,
-        renderingInteractiveFormsExample, withoutZoomDropdownExample, sourceChangeExample, withRotateOptionsExample);
+        renderingInteractiveFormsExample, withoutZoomDropdownExample, sourceChangeExample, withRotateOptionsExample, 
+        showingPdfWithLinksExample);
     addToDrawer(menuLayout);
     addToNavbar(drawerToggle);
   }
