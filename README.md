@@ -9,16 +9,18 @@ This component is part of Vaadin Component Factory.
 Pdf Viewer component provides support to the following features:
 
 - Display a pdf file.
-- Display a thumbnail's viewer.
-- Set zoom.
+- Display a thumbnails viewer.
+- Set zoom, customize the auto and page-fit zoom labels, or hide the zoom dropdown.
 - Navigate to a certain page.
-- Open or close thumbnail's viewer.
+- Open or close thumbnails viewer.
 - Add a listener on change page when clicking on thumbnail.
-- Download the pdf file.
-
-From version 2.5.x:
-
-- Printing the pdf file (implemented with [Print.js](https://www.npmjs.com/package/print-js)).
+- Download the pdf file (the download button can be removed).
+- Print the pdf file (optional, implemented with [Print.js](https://www.npmjs.com/package/print-js)).
+- Rotate the pdf file clockwise and counterclockwise.
+- Set a custom title, or show only the file name as title.
+- Render interactive forms.
+- Customize the tooltips of the toolbar buttons.
+- Support for Lumo and Aura themes.
 
 ## Development instructions
 
@@ -26,7 +28,7 @@ From version 2.5.x:
 ```
 mvn clean install
 ```
-- For starting the demo server go to pdf-viewer-demo and run:
+- For starting the demo server go to vcf-pdf-viewer-demo and run:
 ```
 mvn jetty:run
 ```
@@ -55,7 +57,7 @@ You can report any issue or missing feature on [GitHub](https://github.com/vaadi
 
 ## Sponsored development
 
-Major pieces of development of this add-on has been sponsored by multiple customers of Vaadin. Read more about Expert on Demand at: [Support](https://vaadin.com/support) and [Pricing](https://vaadin.com/pricing)
+Major pieces of development of this add-on have been sponsored by multiple customers of Vaadin. Read more about Expert on Demand at: [Support](https://vaadin.com/support) and [Pricing](https://vaadin.com/pricing)
 
 ## License
 
