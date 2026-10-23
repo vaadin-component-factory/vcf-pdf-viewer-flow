@@ -6,7 +6,7 @@
 
     <groupId>org.vaadin.addons.componentfactory</groupId>
     <artifactId>vcf-pdf-viewer</artifactId>
-    <version>6.1.3-SNAPSHOT</version>
+    <version>6.1.3</version>
     <packaging>jar</packaging>
 
     <name>Pdf Viewer</name>
